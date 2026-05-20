@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cabana — Dashboard Pacotes 2026</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cabana-green: #0A6B2C;
+  --cabana-cream: #F6F0E1;
+  --cabana-orange: #FF5028;
+  --cabana-lime: #A8E067;
+  --cabana-black: #0A0A0A;
+}
+
+body {
+  background: var(--cabana-cream);
+  color: var(--cabana-green);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* HEADER */
+header {
+  background: var(--cabana-green);
+  color: var(--cabana-cream);
+  padding: 14px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 12px rgba(10,107,44,0.3);
+}
+.wordmark {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+.wordmark sup { font-size: 0.5em; vertical-align: super; }
+.header-center {
+  text-align: center;
+}
+.header-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  opacity: 0.8;
+}
+.header-pill {
+  border: 1.5px solid var(--cabana-cream);
+  padding: 5px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* NAV */
+nav {
+  background: var(--cabana-green);
+  padding: 0 24px;
+  border-top: 1px solid rgba(246,240,225,0.15);
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+}
+nav button {
+  background: none;
+  border: none;
+  padding: 12px 18px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(246,240,225,0.6);
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+nav button:hover { color: var(--cabana-cream); }
+nav button.active {
+  color: var(--cabana-lime);
+  border-bottom-color: var(--cabana-lime);
+}
+
+/* MAIN */
+main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 28px 24px;
+}
+.page { display: none; }
+.page.active { display: block; }
+
+/* PAGE HERO */
+.page-hero {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid rgba(10,107,44,0.15);
+}
+.page-hero h1 {
+  font-family: 'Georgia', serif;
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  color: var(--cabana-black);
+  line-height: 1;
+}
+.page-hero p {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 0.6;
+  margin-top: 6px;
+}
+
+/* SECTION TITLE */
+.section-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--cabana-green);
+  opacity: 0.6;
+  margin: 28px 0 12px;
+  font-weight: 700;
+}
+
+/* GRID */
+.grid { display: grid; gap: 12px; }
+.grid-4 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+/* CARD */
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid rgba(10,107,44,0.1);
+  box-shadow: 0 1px 4px rgba(10,107,44,0.06);
+}
+.card h3 {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--cabana-green);
+  opacity: 0.6;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+.card .val {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--cabana-black);
+  letter-spacing: -0.5px;
+}
+.card .sub {
+  font-size: 11px;
+  color: var(--cabana-green);
+  opacity: 0.6;
+  margin-top: 4px;
+}
+
+/* FAROL */
+.farol-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+.dot-green { background: #10b981; box-shadow: 0 0 0 3px rgba(16,185,129,0.2); }
+.dot-yellow { background: #f59e0b; box-shadow: 0 0 0 3px rgba(245,158,11,0.2); }
+.dot-red { background: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.2); }
+
+/* FAROL CARDS */
+.farol-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  border-left: 4px solid;
+  box-shadow: 0 1px 4px rgba(10,107,44,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.farol-card.fc-green { border-left-color: #10b981; }
+.farol-card.fc-yellow { border-left-color: #f59e0b; }
+.farol-card.fc-red { border-left-color: #ef4444; }
+.farol-card .fc-name {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: var(--cabana-green);
+  opacity: 0.7;
+}
+.farol-card .fc-val {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--cabana-black);
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.farol-card .fc-sub {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+/* BADGE */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.badge-green { background: rgba(16,185,129,0.12); color: #065f46; }
+.badge-yellow { background: rgba(245,158,11,0.12); color: #92400e; }
+.badge-red { background: rgba(239,68,68,0.12); color: #991b1b; }
+
+/* TABLE */
+.scroll-x { overflow-x: auto; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  min-width: 600px;
+}
+th, td {
+  padding: 10px 12px;
+  text-align: right;
+  border-bottom: 1px solid rgba(10,107,44,0.08);
+}
+th:first-child, td:first-child { text-align: left; }
+th {
+  background: rgba(10,107,44,0.04);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: var(--cabana-green);
+  position: sticky;
+  top: 0;
+}
+tbody tr:hover { background: rgba(10,107,44,0.03); }
+tbody tr.total { background: rgba(10,107,44,0.05); font-weight: 700; }
+.pos { color: #ef4444; }
+.neg { color: #10b981; }
+
+/* CHART */
+.chart-wrap { position: relative; height: 260px; }
+.chart-wrap-lg { position: relative; height: 340px; }
+
+/* FILTERS */
+.filters-bar {
+  background: white;
+  border-radius: 12px;
+  padding: 14px 18px;
+  border: 1px solid rgba(10,107,44,0.1);
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  margin-bottom: 16px;
+}
+.fil-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.fil-group label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  color: var(--cabana-green);
+  opacity: 0.7;
+}
+.fil-group select, .fil-group input {
+  padding: 7px 10px;
+  border: 1px solid rgba(10,107,44,0.2);
+  border-radius: 6px;
+  font-size: 12px;
+  background: var(--cabana-cream);
+  color: var(--cabana-black);
+  min-width: 150px;
+  outline: none;
+}
+.fil-group select:focus { border-color: var(--cabana-green); }
+.btn-reset {
+  padding: 7px 16px;
+  background: var(--cabana-orange);
+  color: var(--cabana-cream);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  align-self: flex-end;
+}
+.btn-reset:hover { opacity: 0.85; }
+
+/* FOOTER */
+footer {
+  background: var(--cabana-orange);
+  color: var(--cabana-cream);
+  padding: 20px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 60px;
+}
+footer .wm {
+  font-family: 'Georgia', serif;
+  font-size: 22px;
+  font-weight: 900;
+}
+footer .tagline {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  opacity: 0.85;
+}
+
+/* COMMENT BOX */
+.comment-wrap {
+  margin-top: 10px;
+  border-top: 1px solid rgba(10,107,44,0.12);
+  padding-top: 8px;
+}
+.comment-box {
+  width: 100%;
+  min-height: 52px;
+  resize: vertical;
+  border: 1px dashed rgba(10,107,44,0.25);
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 11px;
+  font-family: 'Inter', sans-serif;
+  color: var(--cabana-black);
+  background: rgba(246,240,225,0.6);
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  line-height: 1.4;
+}
+.comment-box:focus {
+  border-color: var(--cabana-green);
+  background: var(--cabana-cream);
+}
+.comment-box::placeholder { color: rgba(10,107,44,0.4); }
+.comment-ts {
+  font-size: 9px;
+  color: rgba(10,107,44,0.45);
+  margin-top: 3px;
+  text-align: right;
+  letter-spacing: 0.5px;
+}
+.comment-saved-flash {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--cabana-green);
+  color: var(--cabana-cream);
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.comment-saved-flash.show { opacity: 1; }
+
+.grid-5 { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+
+.mes-chk {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border: 1.5px solid rgba(10,107,44,0.25);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  background: var(--cabana-cream);
+  color: var(--cabana-green);
+  transition: all 0.15s;
+  user-select: none;
+}
+.mes-chk:has(input:checked) {
+  background: var(--cabana-green);
+  color: var(--cabana-cream);
+  border-color: var(--cabana-green);
+}
+.mes-chk input[type=checkbox] { display: none; }
+
+/* ── SLIDESHOW ── */
+.slide-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 18px;
+  border-radius: 999px;
+  border: 1.5px solid var(--cabana-green);
+  background: transparent;
+  color: var(--cabana-green);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.slide-btn:hover { background: var(--cabana-green); color: var(--cabana-cream); }
+
+/* fullscreen overlay */
+.slide-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--cabana-cream);
+  z-index: 2000;
+  flex-direction: column;
+}
+.slide-overlay.open { display: flex; }
+
+/* top bar: green stripe */
+.slide-topbar {
+  background: var(--cabana-green);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 40px;
+  flex-shrink: 0;
+}
+.slide-topbar-left {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+}
+.slide-topbar .wm {
+  font-family: 'Georgia', serif;
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--cabana-cream);
+  letter-spacing: -0.5px;
+}
+.slide-topbar .slide-period {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: rgba(246,240,225,0.6);
+  font-weight: 600;
+}
+.slide-close {
+  background: rgba(246,240,225,0.1);
+  border: 1.5px solid rgba(246,240,225,0.25);
+  color: var(--cabana-cream);
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.slide-close:hover { background: rgba(246,240,225,0.2); }
+
+/* title row */
+.slide-title-row {
+  padding: 28px 48px 16px;
+  border-bottom: 2px solid rgba(10,107,44,0.1);
+  flex-shrink: 0;
+}
+.slide-title-row h2 {
+  font-family: 'Georgia', serif;
+  font-size: clamp(18px, 2.5vw, 28px);
+  font-weight: 900;
+  color: var(--cabana-black);
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+.slide-title-row p {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: var(--cabana-green);
+  opacity: 0.55;
+  margin: 4px 0 0;
+  font-weight: 600;
+}
+
+/* cards grid */
+.slide-stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 40px;
+  overflow: auto;
+}
+.slide-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  width: 100%;
+  max-width: 1280px;
+}
+@media (max-width: 1100px) { .slide-cards-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 760px)  { .slide-cards-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.slide-pkg-card {
+  background: white;
+  border-radius: 14px;
+  padding: 20px 18px;
+  border: 1px solid rgba(10,107,44,0.1);
+  box-shadow: 0 2px 12px rgba(10,107,44,0.06);
+  border-left: 5px solid;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.slide-pkg-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(10,107,44,0.12); }
+.slide-pkg-card.fc-green  { border-left-color: #10b981; }
+.slide-pkg-card.fc-yellow { border-left-color: #f59e0b; }
+.slide-pkg-card.fc-red    { border-left-color: #ef4444; }
+
+.spc-name {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--cabana-green);
+  opacity: 0.65;
+  line-height: 1.4;
+}
+.spc-val-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.spc-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.spc-dot.fc-green  { background: #10b981; box-shadow: 0 0 0 3px rgba(16,185,129,0.18); }
+.spc-dot.fc-yellow { background: #f59e0b; box-shadow: 0 0 0 3px rgba(245,158,11,0.18); }
+.spc-dot.fc-red    { background: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.18); }
+
+.spc-val {
+  font-family: 'Georgia', serif;
+  font-size: clamp(22px, 2.8vw, 34px);
+  font-weight: 900;
+  color: var(--cabana-black);
+  letter-spacing: -1px;
+  line-height: 1;
+}
+.spc-meta {
+  font-size: 11px;
+  color: #6b7280;
+}
+.spc-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  width: fit-content;
+}
+.spc-status.fc-green  { background: rgba(16,185,129,0.1);  color: #065f46; }
+.spc-status.fc-yellow { background: rgba(245,158,11,0.1);  color: #92400e; }
+.spc-status.fc-red    { background: rgba(239,68,68,0.1);   color: #991b1b; }
+
+/* bottom bar */
+.slide-footer-bar {
+  background: var(--cabana-orange);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 40px;
+  flex-shrink: 0;
+}
+.slide-footer-bar .tagline {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: rgba(246,240,225,0.8);
+  font-weight: 600;
+}
+.slide-footer-bar .ts {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(246,240,225,0.7);
+}
+
+/* entry animation */
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.slide-animate { animation: slideIn 0.3s ease forwards; }
+
+
+
+
+.btn-selall, .btn-clrmeses {
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-selall {
+  border: 1.5px solid var(--cabana-green);
+  background: transparent;
+  color: var(--cabana-green);
+}
+.btn-selall:hover { background: var(--cabana-green); color: var(--cabana-cream); }
+.btn-clrmeses {
+  border: 1.5px solid var(--cabana-orange);
+  background: transparent;
+  color: var(--cabana-orange);
+}
+.btn-clrmeses:hover { background: var(--cabana-orange); color: var(--cabana-cream); }
+
+</style>
+
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:_dlc_DocId msdt:dt="string">75DVEWA554PV-1959509284-63552</mso:_dlc_DocId>
+<mso:_dlc_DocIdItemGuid msdt:dt="string">e1ac7190-83e4-4d26-a9d5-ff6e1544f783</mso:_dlc_DocIdItemGuid>
+<mso:_dlc_DocIdUrl msdt:dt="string">https://cabanaburger.sharepoint.com/sites/documentos/_layouts/15/DocIdRedir.aspx?ID=75DVEWA554PV-1959509284-63552, 75DVEWA554PV-1959509284-63552</mso:_dlc_DocIdUrl>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head>
+<body>
+
+<header>
+  <div class="wordmark">Cabana<sup>®</sup></div>
+  <div class="header-center">
+    <div class="header-title">Dashboard de Pacotes — 2026</div>
+  </div>
+  <div class="header-pill">Burgers Reais</div>
+</header>
+
+<nav id="nav-tabs"></nav>
+
+<main id="main-content"></main>
+
+<footer>
+  <div class="wm">Cabana<sup style="font-size:0.5em">®</sup></div>
+  <div class="tagline">Controladoria · SP → RJ · 2026</div>
+</footer>
+
+<script>
+
+const DATA = {"meta": {"ecolab": {"real2025": [33254.02, 40042.1, 34008.92, 40227.98, 25870.63, 54077.05, 49598.31, 30680.0, 43888.53, 51686.3, 47881.06, 59006.89], "meta": [48163.15, 39142.72, 45823.48, 24806.6, 24806.6, 24806.6, 24806.6, 24806.6, 24806.6, 24806.6, 24806.6, 24806.6], "real": [48163.15, 39142.72, 45823.48, 49641.81, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, "reembolso": {"real2025": [11865.72, 24206.17, 15864.94, 12029.33, 16996.85, 17798.22, 14492.92, 22150.0, 17847.48, 22202.44, 29837.02, 21777.51], "meta": [11134.91, 9631.26, 18495.07, 8149.0, 8149.0, 8149.0, 8149.0, 8149.0, 8149.0, 8149.0, 8149.0, 8149.0], "real": [11134.91, 9631.26, 18495.07, 14117.07, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, "jkc": {"real2025": [45479.0, 17139.0, 90496.0, 21249.0, 21910.0, 25884.09, 23749.74, 27674.1, 25435.0, 33558.0, 23716.0, 33797.0], "meta": [27896.19, 3343.59, 2598.03, 2406.33, 40786.48, 40786.48, 40786.48, 40786.48, 40786.48, 40786.48, 40786.48, 40786.48], "real": [27896.19, 3343.59, 2598.03, 2406.33, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, "lalamove": {"real2025": [2784.5, 3483.19, 3079.0, 4363.1, 2701.4, 4120.99, 2158.14, 2292.0, 3070.94, 3136.78, 3928.78, 4108.79], "meta": [3615.15, 2719.28, 2983.89, 2400.0, 2400.0, 2400.0, 2400.0, 2400.0, 2400.0, 2400.0, 2400.0, 2400.0], "real": [3615.15, 2719.28, 2983.89, 3238.54, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, "uniformes": {"real2025": [26520.92, 20811.3, 23145.32, 20824.84, 33411.32, 37230.26, 16810.41, 25191.0, 29891.58, 33421.02, 24034.97, 21515.69], "meta": [903.26, 5674.29, 85348.13, 7009.0, 7009.0, 7009.0, 7009.0, 7009.0, 7009.0, 7009.0, 7009.0, 7008.0], "real": [903.26, 5674.29, 85348.13, 45.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, "taxi": {"real2025": [21700.0, 24100.0, 22200.0, 23100.0, 23700.0, 22700.0, 21700.0, 26900.0, 26900.0, 32500.0, 37000.0, 36600.0], "meta": [27626.07, 27670.36, 40086.64, 16735.21, 16735.21, 16735.21, 16735.21, 16735.21, 16735.21, 16735.21, 16735.21, 16735.21], "real": [27626.07, 27670.36, 40086.64, 35445.28, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, "utensilios": {"real2025": [16529.92, 20159.82, 18457.9, 34798.95, 15090.53, 24035.59, 55189.98, 68534.72, 68646.94, 18304.06, 43902.33, 33203.74], "meta": [31284.15, 12136.11, 14966.41, 29068.15, 29068.15, 29068.15, 29068.15, 29068.15, 29068.15, 29068.15, 29068.15, 29068.15], "real": [31284.15, 12136.11, 14966.41, 5592.89, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, "epi": {"real2025": [8201.99, 84.41, 7629.57, 409.0, 12019.0, 3112.82, 4715.5, 880.76, 6346.04, 2913.98, 1076.66, 9010.5], "meta": [9648.1, 3509.01, 5776.17, 4162.97, 4162.97, 4162.97, 4162.97, 4162.97, 4162.97, 4162.97, 4162.97, 4162.97], "real": [9648.1, 3509.01, 5776.17, 600.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}}, "aggregated": {"ecolab": [{"filial": "02-LEOPOLDO", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 0, "valor": 3473.59}, {"filial": "02-LEOPOLDO", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 1, "valor": 2276.88}, {"filial": "02-LEOPOLDO", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 2, "valor": 3187.39}, {"filial": "05-BARRA RJ", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 0, "valor": 2816.94}, {"filial": "05-BARRA RJ", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 1, "valor": 2398.69}, {"filial": "05-BARRA RJ", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 2, "valor": 2499.01}, {"filial": "06-MORUMBI SHOP", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 0, "valor": 2395.78}, {"filial": "06-MORUMBI SHOP", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 1, "valor": 1880.19}, {"filial": "06-MORUMBI SHOP", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 2, "valor": 2101.24}, {"filial": "06-MORUMBI SHOP", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 3, "valor": 4564.38}, {"filial": "07-VILLA LOBOS", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 0, "valor": 1348.48}, {"filial": "07-VILLA LOBOS", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 1, "valor": 2861.64}, {"filial": "07-VILLA LOBOS", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 2, "valor": 1467.35}, {"filial": "08-OSCAR FREIRE", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 0, "valor": 1947.62}, {"filial": "08-OSCAR FREIRE", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 1, "valor": 3143.5}, {"filial": "08-OSCAR FREIRE", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 2, "valor": 3194.3}, {"filial": "09-MOEMA", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 0, "valor": 6586.36}, {"filial": "09-MOEMA", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 1, "valor": 3485.48}, {"filial": "09-MOEMA", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 2, "valor": 5863.96}, {"filial": "09-MOEMA", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 3, "valor": 3480.81}, {"filial": "11-ALPHAVILLE", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 0, "valor": 6000.14}, {"filial": "11-ALPHAVILLE", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 1, "valor": 4823.87}, {"filial": "11-ALPHAVILLE", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 2, "valor": 2430.58}, {"filial": "12-BRAZ LEME", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 0, "valor": 4265.13}, {"filial": "12-BRAZ LEME", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 1, "valor": 423.28}, {"filial": "12-BRAZ LEME", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 2, "valor": 4057.65}, {"filial": "13-CAMPINAS", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 0, "valor": 1479.25}, {"filial": "13-CAMPINAS", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 1, "valor": 1535.12}, {"filial": "13-CAMPINAS", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 2, "valor": 1706.48}, {"filial": "14-NITEROI RJ", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 0, "valor": 1435.48}, {"filial": "14-NITEROI RJ", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 1, "valor": 1281.92}, {"filial": "14-NITEROI RJ", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 2, "valor": 1765.38}, {"filial": "15-ELDORADO", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 0, "valor": 3283.59}, {"filial": "15-ELDORADO", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 1, "valor": 2855.15}, {"filial": "15-ELDORADO", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 2, "valor": 3908.09}, {"filial": "17-SANTO ANDRE", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 0, "valor": 2634.16}, {"filial": "17-SANTO ANDRE", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 1, "valor": 2285.31}, {"filial": "17-SANTO ANDRE", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 2, "valor": 2997.09}, {"filial": "17-SANTO ANDRE", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 3, "valor": 3920.73}, {"filial": "22-PINHEIROS", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 0, "valor": 3134.96}, {"filial": "22-PINHEIROS", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 1, "valor": 1667.12}, {"filial": "22-PINHEIROS", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 2, "valor": 2781.04}, {"filial": "24-RIBEIRAO PRETO", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 0, "valor": 902.1}, {"filial": "24-RIBEIRAO PRETO", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 1, "valor": 1717.59}, {"filial": "24-RIBEIRAO PRETO", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 2, "valor": 696.22}, {"filial": "26-GUARULHOS", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 0, "valor": 602.55}, {"filial": "26-GUARULHOS", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 2, "valor": 1930.18}, {"filial": "27-MOOCA", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 0, "valor": 2304.09}, {"filial": "27-MOOCA", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 1, "valor": 2593.01}, {"filial": "30-MORUMBI TOWN", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 0, "valor": 3823.54}, {"filial": "30-MORUMBI TOWN", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 1, "valor": 3671.16}, {"filial": "30-MORUMBI TOWN", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 2, "valor": 2435.46}, {"filial": "32-TATUAPE", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 0, "valor": 3459.51}, {"filial": "32-TATUAPE", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 1, "valor": 3318.89}, {"filial": "32-TATUAPE", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 2, "valor": 6410.05}, {"filial": "12-BRAZ LEME", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 3, "valor": 5016.47}, {"filial": "02-LEOPOLDO", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 3, "valor": 2894.79}, {"filial": "11-ALPHAVILLE", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 3, "valor": 5397.43}, {"filial": "22-PINHEIROS", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 3, "valor": 2839.42}, {"filial": "27-MOOCA", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 3, "valor": 2529.02}, {"filial": "07-VILLA LOBOS", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 3, "valor": 2983.58}, {"filial": "08-OSCAR FREIRE", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 3, "valor": 4404.04}, {"filial": "30-MORUMBI TOWN", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 3, "valor": 2504.23}, {"filial": "15-ELDORADO", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 3, "valor": 2431.48}, {"filial": "05-BARRA RJ", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 3, "valor": 2458.09}, {"filial": "32-TATUAPE", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 3, "valor": 2289.81}, {"filial": "26-GUARULHOS", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 3, "valor": 984.29}, {"filial": "13-CAMPINAS", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 3, "valor": 2405.87}, {"filial": "14-NITEROI RJ", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 3, "valor": 916.79}, {"filial": "24-RIBEIRAO PRETO", "fornecedor": "ECOLAB QUIMICA LTDA", "mes": 3, "valor": 1530.78}], "jkc": [{"filial": "01-ESCRITORIO", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 0, "valor": 1261.42}, {"filial": "02-LEOPOLDO", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 0, "valor": 1791.67}, {"filial": "02-LEOPOLDO", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 1, "valor": 216.0}, {"filial": "02-LEOPOLDO", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 2, "valor": 270.0}, {"filial": "10-FABRICA", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 0, "valor": 6336.99}, {"filial": "05-BARRA RJ", "fornecedor": "SMAIS DISTRIBUIDORA E COMERCIO LTDA", "mes": 0, "valor": 2434.89}, {"filial": "05-BARRA RJ", "fornecedor": "SMAIS DISTRIBUIDORA E COMERCIO LTDA", "mes": 2, "valor": 351.49}, {"filial": "06-MORUMBI SHOP", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 0, "valor": 788.62}, {"filial": "06-MORUMBI SHOP", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 1, "valor": 972.0}, {"filial": "06-MORUMBI SHOP", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 2, "valor": 270.0}, {"filial": "07-VILLA LOBOS", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 0, "valor": 504.58}, {"filial": "08-OSCAR FREIRE", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 0, "valor": 1770.08}, {"filial": "08-OSCAR FREIRE", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 2, "valor": 162.0}, {"filial": "09-MOEMA", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 0, "valor": 3951.76}, {"filial": "09-MOEMA", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 1, "valor": 324.0}, {"filial": "09-MOEMA", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 2, "valor": 270.0}, {"filial": "11-ALPHAVILLE", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 0, "valor": 1573.72}, {"filial": "11-ALPHAVILLE", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 1, "valor": 270.0}, {"filial": "11-ALPHAVILLE", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 2, "valor": 24.24}, {"filial": "12-BRAZ LEME", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 0, "valor": 756.86}, {"filial": "12-BRAZ LEME", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 1, "valor": 648.0}, {"filial": "13-CAMPINAS", "fornecedor": "FILIAL - JKC SOLUCOES SOCIEDADE LTDA", "mes": 0, "valor": 688.28}, {"filial": "13-CAMPINAS", "fornecedor": "FILIAL - JKC SOLUCOES SOCIEDADE LTDA", "mes": 2, "valor": 378.0}, {"filial": "14-NITEROI RJ", "fornecedor": "SMAIS DISTRIBUIDORA E COMERCIO LTDA", "mes": 0, "valor": 1076.0}, {"filial": "14-NITEROI RJ", "fornecedor": "SMAIS DISTRIBUIDORA E COMERCIO LTDA", "mes": 2, "valor": 324.0}, {"filial": "15-ELDORADO", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 0, "valor": 781.63}, {"filial": "17-SANTO ANDRE", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 0, "valor": 1450.74}, {"filial": "17-SANTO ANDRE", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 1, "valor": 432.0}, {"filial": "17-SANTO ANDRE", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 2, "valor": 324.0}, {"filial": "22-PINHEIROS", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 0, "valor": 1910.01}, {"filial": "22-PINHEIROS", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 1, "valor": 378.0}, {"filial": "22-PINHEIROS", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 2, "valor": 432.0}, {"filial": "26-GUARULHOS", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 0, "valor": 251.38}, {"filial": "27-MOOCA", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 1, "valor": 324.0}, {"filial": "30-MORUMBI TOWN", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 0, "valor": 791.33}, {"filial": "30-MORUMBI TOWN", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 1, "valor": 54.0}, {"filial": "32-TATUAPE", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 0, "valor": 761.39}, {"filial": "06-MORUMBI SHOP", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 3, "valor": 1075.79}, {"filial": "27-MOOCA", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 3, "valor": 115.66}, {"filial": "13-CAMPINAS", "fornecedor": "FILIAL - JKC SOLUCOES SOCIEDADE LTDA", "mes": 3, "valor": 173.49}, {"filial": "08-OSCAR FREIRE", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 3, "valor": 289.15}, {"filial": "05-BARRA RJ", "fornecedor": "SMAIS DISTRIBUIDORA E COMERCIO LTDA", "mes": 3, "valor": 324.03}, {"filial": "30-MORUMBI TOWN", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 3, "valor": 115.66}, {"filial": "17-SANTO ANDRE", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 3, "valor": 216.0}, {"filial": "09-MOEMA", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 3, "valor": 289.15}], "lalamove": [{"filial": "01-ESCRITORIO", "fornecedor": "LALAMOVE BRASIL", "mes": 0, "valor": 3615.15}, {"filial": "01-ESCRITORIO", "fornecedor": "LALAMOVE BRASIL", "mes": 1, "valor": 2719.28}, {"filial": "01-ESCRITORIO", "fornecedor": "LALAMOVE BRASIL", "mes": 2, "valor": 2983.39}, {"filial": "01-ESCRITORIO", "fornecedor": "LALAMOVE BRASIL", "mes": 3, "valor": 3238.54}], "epi": [{"filial": "05-BARRA RJ", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 0, "valor": 310.0}, {"filial": "08-OSCAR FREIRE", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 0, "valor": 312.0}, {"filial": "09-MOEMA", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 0, "valor": 252.0}, {"filial": "32-TATUAPE", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 0, "valor": 578.0}, {"filial": "07-VILLA LOBOS", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 3, "valor": 348.0}, {"filial": "08-OSCAR FREIRE", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 3, "valor": 252.0}, {"filial": "14-NITEROI RJ", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 1, "valor": 48.0}, {"filial": "30-MORUMBI TOWN", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 1, "valor": 360.0}, {"filial": "17-SANTO ANDRE", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 1, "valor": 425.0}, {"filial": "17-SANTO ANDRE", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 2, "valor": 198.0}, {"filial": "12-BRAZ LEME", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 1, "valor": 924.0}, {"filial": "10-FABRICA", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 0, "valor": 8630.0}, {"filial": "10-FABRICA", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 1, "valor": 1470.0}, {"filial": "10-FABRICA", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 2, "valor": 4577.0}, {"filial": "13-CAMPINAS", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 0, "valor": 57.0}, {"filial": "22-PINHEIROS", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 1, "valor": 350.0}, {"filial": "26-GUARULHOS", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 2, "valor": 1355.6}], "uniformes": [{"filial": "05-BARRA RJ", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 0, "valor": 45.0}, {"filial": "09-MOEMA", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 0, "valor": 45.0}, {"filial": "08-OSCAR FREIRE", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 3, "valor": 45.0}, {"filial": "10-FABRICA", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 0, "valor": 880.0}, {"filial": "10-FABRICA", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 1, "valor": 2240.0}, {"filial": "10-FABRICA", "fornecedor": "JKC SOLUCOES SOCIEDADE LTDA", "mes": 2, "valor": 3828.98}, {"filial": "10-FABRICA", "fornecedor": "MGV CONFECCOES LTDA", "mes": 1, "valor": 3900.0}, {"filial": "10-FABRICA", "fornecedor": "MGV CONFECCOES LTDA", "mes": 2, "valor": 46243.47}, {"filial": "10-FABRICA", "fornecedor": "R DE P ROMERO EIRELI", "mes": 2, "valor": 41897.0}], "utensilios": [{"filial": "09-MOEMA", "fornecedor": "BORRACHAS MOEMA LTDA - ME", "mes": 2, "valor": 260.0}, {"filial": "10-FABRICA", "fornecedor": "DECORMARTIN INDUSTRIA E COMERCIO DE VIDROS E CRISTAIS LTDA", "mes": 0, "valor": 2914.97}, {"filial": "07-VILLA LOBOS", "fornecedor": "DELLT SISTEMAS E INSTRUMENTOS LTDA EPP", "mes": 2, "valor": 226.0}, {"filial": "10-FABRICA", "fornecedor": "GEJR BURGUER FOOD SERVICE LTDA", "mes": 2, "valor": 2582.08}, {"filial": "10-FABRICA", "fornecedor": "GERMER PORCELANAS FINAS S.A.", "mes": 2, "valor": 11451.86}, {"filial": "15-ELDORADO", "fornecedor": "SISTEMAS E SERVIÇOS R.B. QUALITY COMERCIO DE EMBALAGENS LTDA", "mes": 0, "valor": 423.2}, {"filial": "06-MORUMBI SHOP", "fornecedor": "SISTEMAS E SERVIÇOS R.B. QUALITY COMERCIO DE EMBALAGENS LTDA", "mes": 2, "valor": 52.33}, {"filial": "07-VILLA LOBOS", "fornecedor": "SISTEMAS E SERVIÇOS R.B. QUALITY COMERCIO DE EMBALAGENS LTDA", "mes": 0, "valor": 52.33}, {"filial": "09-MOEMA", "fornecedor": "SISTEMAS E SERVIÇOS R.B. QUALITY COMERCIO DE EMBALAGENS LTDA", "mes": 1, "valor": 83.53}, {"filial": "09-MOEMA", "fornecedor": "SISTEMAS E SERVIÇOS R.B. QUALITY COMERCIO DE EMBALAGENS LTDA", "mes": 2, "valor": 250.59}, {"filial": "11-ALPHAVILLE", "fornecedor": "SISTEMAS E SERVIÇOS R.B. QUALITY COMERCIO DE EMBALAGENS LTDA", "mes": 2, "valor": 147.5}, {"filial": "17-SANTO ANDRE", "fornecedor": "SISTEMAS E SERVIÇOS R.B. QUALITY COMERCIO DE EMBALAGENS LTDA", "mes": 2, "valor": 52.33}, {"filial": "32-TATUAPE", "fornecedor": "SISTEMAS E SERVIÇOS R.B. QUALITY COMERCIO DE EMBALAGENS LTDA", "mes": 2, "valor": 252.16}, {"filial": "17-SANTO ANDRE", "fornecedor": "SISTEMAS E SERVIÇOS R.B. QUALITY COMERCIO DE EMBALAGENS LTDA", "mes": 3, "valor": 247.73}, {"filial": "11-ALPHAVILLE", "fornecedor": "SISTEMAS E SERVIÇOS R.B. QUALITY COMERCIO DE EMBALAGENS LTDA", "mes": 3, "valor": 147.5}, {"filial": "08-OSCAR FREIRE", "fornecedor": "SISTEMAS E SERVIÇOS R.B. QUALITY COMERCIO DE EMBALAGENS LTDA", "mes": 3, "valor": 100.24}, {"filial": "01-ESCRITORIO", "fornecedor": "SUPRICORP SUPRIMENTOS LTDA", "mes": 0, "valor": 28.32}, {"filial": "01-ESCRITORIO", "fornecedor": "SUPRICORP SUPRIMENTOS LTDA", "mes": 2, "valor": 23.6}, {"filial": "17-SANTO ANDRE", "fornecedor": "SUPRICORP SUPRIMENTOS LTDA", "mes": 0, "valor": 37.0}, {"filial": "22-PINHEIROS", "fornecedor": "SUPRICORP SUPRIMENTOS LTDA", "mes": 0, "valor": 18.5}, {"filial": "24-RIBEIRAO PRETO", "fornecedor": "SUPRICORP SUPRIMENTOS LTDA", "mes": 0, "valor": 22.89}, {"filial": "05-BARRA RJ", "fornecedor": "SUPRICORP SUPRIMENTOS LTDA", "mes": 3, "valor": 27.6}, {"filial": "10-FABRICA", "fornecedor": "IVIAN RESTAURANTES E LANCHONETES LTDA", "mes": 1, "valor": 229.04}, {"filial": "10-FABRICA", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 0, "valor": 3380.0}, {"filial": "10-FABRICA", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 1, "valor": 330.0}, {"filial": "10-FABRICA", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 2, "valor": 2476.0}, {"filial": "05-BARRA RJ", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 0, "valor": 160.0}, {"filial": "08-OSCAR FREIRE", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 0, "valor": 160.0}, {"filial": "09-MOEMA", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 0, "valor": 160.0}, {"filial": "30-MORUMBI TOWN", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 1, "valor": 160.0}, {"filial": "32-TATUAPE", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 0, "valor": 320.0}, {"filial": "17-SANTO ANDRE", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 1, "valor": 320.0}, {"filial": "12-BRAZ LEME", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 1, "valor": 480.0}, {"filial": "07-VILLA LOBOS", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 3, "valor": 160.0}, {"filial": "08-OSCAR FREIRE", "fornecedor": "PROTESIL PROTEÇÃO INDUSTRIAL", "mes": 3, "valor": 160.0}, {"filial": "02-LEOPOLDO", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 0, "valor": 908.14}, {"filial": "10-FABRICA", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 0, "valor": 5236.11}, {"filial": "10-FABRICA", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 2, "valor": 1593.73}, {"filial": "05-BARRA RJ", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 0, "valor": 1009.2}, {"filial": "05-BARRA RJ", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 1, "valor": 1747.52}, {"filial": "06-MORUMBI SHOP", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 0, "valor": 1143.2}, {"filial": "06-MORUMBI SHOP", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 2, "valor": 567.64}, {"filial": "08-OSCAR FREIRE", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 0, "valor": 2035.55}, {"filial": "09-MOEMA", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 0, "valor": 902.64}, {"filial": "09-MOEMA", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 2, "valor": 530.52}, {"filial": "11-ALPHAVILLE", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 0, "valor": 773.44}, {"filial": "12-BRAZ LEME", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 0, "valor": 389.1}, {"filial": "12-BRAZ LEME", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 2, "valor": 1349.24}, {"filial": "13-CAMPINAS", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 1, "valor": 372.64}, {"filial": "13-CAMPINAS", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 2, "valor": 485.86}, {"filial": "14-NITEROI RJ", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 0, "valor": 565.25}, {"filial": "14-NITEROI RJ", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 2, "valor": 605.46}, {"filial": "15-ELDORADO", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 0, "valor": 768.96}, {"filial": "17-SANTO ANDRE", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 2, "valor": 482.66}, {"filial": "22-PINHEIROS", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 2, "valor": 859.26}, {"filial": "30-MORUMBI TOWN", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 1, "valor": 731.82}, {"filial": "32-TATUAPE", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 0, "valor": 847.57}, {"filial": "32-TATUAPE", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 1, "valor": 337.5}, {"filial": "32-TATUAPE", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 2, "valor": 1314.62}, {"filial": "24-RIBEIRAO PRETO", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 3, "valor": 491.84}, {"filial": "05-BARRA RJ", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 3, "valor": 518.8}, {"filial": "17-SANTO ANDRE", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 3, "valor": 785.04}, {"filial": "11-ALPHAVILLE", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 3, "valor": 345.98}, {"filial": "06-MORUMBI SHOP", "fornecedor": "REBAL COMERCIAL LTDA", "mes": 3, "valor": 618.52}, {"filial": "02-LEOPOLDO", "fornecedor": "UTILITA DISTRIBUIDORA DE UTENSILIOS LTDA", "mes": 0, "valor": 1663.7}, {"filial": "02-LEOPOLDO", "fornecedor": "UTILITA DISTRIBUIDORA DE UTENSILIOS LTDA", "mes": 2, "valor": 196.68}, {"filial": "08-OSCAR FREIRE", "fornecedor": "UTILITA DISTRIBUIDORA DE UTENSILIOS LTDA", "mes": 0, "valor": 817.0}, {"filial": "06-MORUMBI SHOP", "fornecedor": "UTILITA DISTRIBUIDORA DE UTENSILIOS LTDA", "mes": 1, "valor": 790.55}, {"filial": "09-MOEMA", "fornecedor": "UTILITA DISTRIBUIDORA DE UTENSILIOS LTDA", "mes": 0, "valor": 713.5}, {"filial": "11-ALPHAVILLE", "fornecedor": "UTILITA DISTRIBUIDORA DE UTENSILIOS LTDA", "mes": 0, "valor": 610.0}, {"filial": "11-ALPHAVILLE", "fornecedor": "UTILITA DISTRIBUIDORA DE UTENSILIOS LTDA", "mes": 2, "valor": 329.39}, {"filial": "12-BRAZ LEME", "fornecedor": "UTILITA DISTRIBUIDORA DE UTENSILIOS LTDA", "mes": 2, "valor": 427.77}, {"filial": "13-CAMPINAS", "fornecedor": "UTILITA DISTRIBUIDORA DE UTENSILIOS LTDA", "mes": 1, "valor": 892.0}, {"filial": "15-ELDORADO", "fornecedor": "UTILITA DISTRIBUIDORA DE UTENSILIOS LTDA", "mes": 1, "valor": 505.0}, {"filial": "17-SANTO ANDRE", "fornecedor": "UTILITA DISTRIBUIDORA DE UTENSILIOS LTDA", "mes": 2, "valor": 510.0}, {"filial": "22-PINHEIROS", "fornecedor": "UTILITA DISTRIBUIDORA DE UTENSILIOS LTDA", "mes": 1, "valor": 844.8}, {"filial": "30-MORUMBI TOWN", "fornecedor": "UTILITA DISTRIBUIDORA DE UTENSILIOS LTDA", "mes": 2, "valor": 1298.8}, {"filial": "32-TATUAPE", "fornecedor": "UTILITA DISTRIBUIDORA DE UTENSILIOS LTDA", "mes": 2, "valor": 3135.42}, {"filial": "05-BARRA RJ", "fornecedor": "ITW FEG DO BRASIL IND E COM LTDA", "mes": 2, "valor": 639.85}, {"filial": "07-VILLA LOBOS", "fornecedor": "INDUSFRIO INDUSTRIA DE REFRIGERAÇAO LTDA", "mes": 1, "valor": 360.0}, {"filial": "07-VILLA LOBOS", "fornecedor": "ITW FEG DO BRASIL IND E COM LTDA", "mes": 1, "valor": 1978.08}, {"filial": "12-BRAZ LEME", "fornecedor": "ITW FEG DO BRASIL IND E COM LTDA", "mes": 1, "valor": 602.7}, {"filial": "30-MORUMBI TOWN", "fornecedor": "ITW FEG DO BRASIL IND E COM LTDA", "mes": 1, "valor": 855.22}, {"filial": "09-MOEMA", "fornecedor": "INDUSFRIO INDUSTRIA DE REFRIGERAÇAO LTDA", "mes": 1, "valor": 1101.0}, {"filial": "05-BARRA RJ", "fornecedor": "COLDMIX IND. COM. E REPRESENTAÇÕES LTDA", "mes": 3, "valor": 2499.38}], "reembolso": [{"filial": "01-ESCRITORIO", "fornecedor": "ANA CLAUDIA TEIXEIRA ZOQBI", "mes": 0, "valor": 129.56}, {"filial": "01-ESCRITORIO", "fornecedor": "EDNALDO ESTEVAO BRITO", "mes": 2, "valor": 3637.16}, {"filial": "01-ESCRITORIO", "fornecedor": "EDUARDO CESAR CURTI", "mes": 2, "valor": 168.6}, {"filial": "01-ESCRITORIO", "fornecedor": "LILIAN DE ASSIS LAGO SERVICO DE ESCRITORIO LTDA", "mes": 2, "valor": 45.0}, {"filial": "01-ESCRITORIO", "fornecedor": "GABRIEL HENRIQUE AGUIAR VIEIRA", "mes": 0, "valor": 608.0}, {"filial": "01-ESCRITORIO", "fornecedor": "LEONARDO SOARES XIMENES DE ARAGAO", "mes": 1, "valor": 20.8}, {"filial": "01-ESCRITORIO", "fornecedor": "FELIPE CARMELO DE SOUZA", "mes": 2, "valor": 625.99}, {"filial": "01-ESCRITORIO", "fornecedor": "GABRIEL MENDES RIBEIRO", "mes": 2, "valor": 45.0}, {"filial": "01-ESCRITORIO", "fornecedor": "GIOVANNA DALBEM", "mes": 0, "valor": 203.05}, {"filial": "01-ESCRITORIO", "fornecedor": "JOSIMARA FERREIRA", "mes": 1, "valor": 4239.5}, {"filial": "01-ESCRITORIO", "fornecedor": "JOSIMARA FERREIRA", "mes": 2, "valor": 2395.08}, {"filial": "01-ESCRITORIO", "fornecedor": "JULIO DE OLIVEIRA CAVALCANTE", "mes": 2, "valor": 1200.0}, {"filial": "01-ESCRITORIO", "fornecedor": "LUIS HENRIQUE SPRINGMAN", "mes": 0, "valor": 1541.97}, {"filial": "01-ESCRITORIO", "fornecedor": "LUIS HENRIQUE SPRINGMAN", "mes": 1, "valor": 1198.26}, {"filial": "01-ESCRITORIO", "fornecedor": "MARCIO SERNAGLIA", "mes": 2, "valor": 380.83}, {"filial": "01-ESCRITORIO", "fornecedor": "MARCO AURELIO BORGES DOS SANTOS", "mes": 0, "valor": 2074.0}, {"filial": "01-ESCRITORIO", "fornecedor": "MARCO AURELIO BORGES DOS SANTOS", "mes": 2, "valor": 2489.0}, {"filial": "01-ESCRITORIO", "fornecedor": "MATHEUS SOUSA TEORO", "mes": 0, "valor": 45.0}, {"filial": "01-ESCRITORIO", "fornecedor": "MATHEUS SOUSA TEORO", "mes": 1, "valor": 90.0}, {"filial": "01-ESCRITORIO", "fornecedor": "MATHEUS SOUSA TEORO", "mes": 2, "valor": 360.0}, {"filial": "01-ESCRITORIO", "fornecedor": "MAYARA NEUMA DO NASCIMENTO", "mes": 1, "valor": 218.4}, {"filial": "01-ESCRITORIO", "fornecedor": "MAYARA NEUMA DO NASCIMENTO", "mes": 2, "valor": 255.3}, {"filial": "01-ESCRITORIO", "fornecedor": "MILTON ANDRADE LOPES", "mes": 2, "valor": 324.0}, {"filial": "01-ESCRITORIO", "fornecedor": "NATACHA DE MENDONÇA", "mes": 0, "valor": 1423.2}, {"filial": "01-ESCRITORIO", "fornecedor": "PAULO ROBERTO CATHARINO", "mes": 2, "valor": 1190.87}, {"filial": "01-ESCRITORIO", "fornecedor": "RAFAEL FELIPE ELIEZER DA SILVA", "mes": 2, "valor": 248.08}, {"filial": "01-ESCRITORIO", "fornecedor": "ROBERTA MARCASSA", "mes": 1, "valor": 353.1}, {"filial": "01-ESCRITORIO", "fornecedor": "WILLIAM RIBEIRO SOUSA", "mes": 0, "valor": 4948.65}, {"filial": "01-ESCRITORIO", "fornecedor": "WILLIAM RIBEIRO SOUSA", "mes": 1, "valor": 9388.8}, {"filial": "01-ESCRITORIO", "fornecedor": "WILLIAM RIBEIRO SOUSA", "mes": 2, "valor": 3301.8}, {"filial": "01-ESCRITORIO", "fornecedor": "ROGERIO NICODEMOS MARTINS", "mes": 1, "valor": 130.1}, {"filial": "01-ESCRITORIO", "fornecedor": "FERNANDA NATALIA DA SILVA DE OLIVEIRA", "mes": 0, "valor": 161.48}, {"filial": "01-ESCRITORIO", "fornecedor": "FERNANDA NATALIA DA SILVA DE OLIVEIRA", "mes": 2, "valor": 31.7}, {"filial": "01-ESCRITORIO", "fornecedor": "PHILIPE THIAGO DE MELLHO", "mes": 1, "valor": 983.0}, {"filial": "01-ESCRITORIO", "fornecedor": "HENRIQUE PRADO BOAVENTURA", "mes": 2, "valor": 45.0}, {"filial": "01-ESCRITORIO", "fornecedor": "MARIANA DAL BELO VENANCIO", "mes": 2, "valor": 1886.66}, {"filial": "01-ESCRITORIO", "fornecedor": "JOSIMARA FERREIRA", "mes": 3, "valor": 2936.29}, {"filial": "01-ESCRITORIO", "fornecedor": "ANA CLAUDIA TEIXEIRA ZOQBI", "mes": 3, "valor": 1231.84}, {"filial": "01-ESCRITORIO", "fornecedor": "MATHEUS SOUSA TEORO", "mes": 3, "valor": 225.0}, {"filial": "01-ESCRITORIO", "fornecedor": "PAOLA DENIS PALACIOS LTDA", "mes": 3, "valor": 112.9}, {"filial": "01-ESCRITORIO", "fornecedor": "MILTON ANDRADE LOPES", "mes": 3, "valor": 405.0}, {"filial": "01-ESCRITORIO", "fornecedor": "MARCIO SERNAGLIA", "mes": 3, "valor": 428.12}, {"filial": "01-ESCRITORIO", "fornecedor": "SHI LEUNG TSUI", "mes": 3, "valor": 580.0}, {"filial": "01-ESCRITORIO", "fornecedor": "MAYARA NEUMA DO NASCIMENTO", "mes": 3, "valor": 105.4}, {"filial": "01-ESCRITORIO", "fornecedor": "RENATA MONTEIRO NEVES", "mes": 3, "valor": 86.0}, {"filial": "01-ESCRITORIO", "fornecedor": "LUIS HENRIQUE SPRINGMAN", "mes": 3, "valor": 2731.78}, {"filial": "01-ESCRITORIO", "fornecedor": "PAULO ROBERTO CATHARINO", "mes": 3, "valor": 90.0}, {"filial": "01-ESCRITORIO", "fornecedor": "RAFAEL LEANDRO DIAS", "mes": 3, "valor": 276.1}, {"filial": "01-ESCRITORIO", "fornecedor": "WILLIAM RIBEIRO SOUSA", "mes": 3, "valor": 3388.5}, {"filial": "01-ESCRITORIO", "fornecedor": "Aline Moreira da Costa", "mes": 3, "valor": 1520.14}], "taxi": [{"filial": "11-ALPHAVILLE", "fornecedor": "Fabio Pimentel Dias", "solicitante": "Fabio Pimentel Dias", "mes": 2, "valor": 945.39}, {"filial": "11-ALPHAVILLE", "fornecedor": "Flavio Fernandes Tumaz", "solicitante": "Flavio Fernandes Tumaz", "mes": 2, "valor": 1430.1}, {"filial": "11-ALPHAVILLE", "fornecedor": "Daniel Diaz Reyes", "solicitante": "Daniel Diaz Reyes", "mes": 2, "valor": 1858.36}, {"filial": "11-ALPHAVILLE", "fornecedor": "Raydan Araújo", "solicitante": "Raydan Araújo", "mes": 2, "valor": 1523.22}, {"filial": "30-MORUMBI TOWN", "fornecedor": "Munike Norania Oliveira De Miranda", "solicitante": "Munike Norania Oliveira De Miranda", "mes": 2, "valor": 372.3}, {"filial": "17-SANTO ANDRE", "fornecedor": "Ane Caroline De Oliveira Silva", "solicitante": "Ane Caroline De Oliveira Silva", "mes": 2, "valor": 1771.82}, {"filial": "06-MORUMBI SHOPPING", "fornecedor": "Ana Cláudia Teixeira Zoqbi", "solicitante": "Ana Cláudia Teixeira Zoqbi", "mes": 2, "valor": 468.73}, {"filial": "12-BRAZ LEME", "fornecedor": "Giovanna Franco Sanatanna", "solicitante": "Giovanna Franco Sanatanna", "mes": 2, "valor": 428.76}, {"filial": "22-PINHEIROS", "fornecedor": "Gustavo José Frederico", "solicitante": "Gustavo José Frederico", "mes": 2, "valor": 4082.58}, {"filial": "09-MOEMA", "fornecedor": "Giovanna Dalbem Da Silva", "solicitante": "Giovanna Dalbem Da Silva", "mes": 2, "valor": 34.4}, {"filial": "07-VILLA LOBOS", "fornecedor": "Rautyeris Barbosa Cardoso", "solicitante": "Rautyeris Barbosa Cardoso", "mes": 2, "valor": 262.26}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Maria Reininger", "solicitante": "Maria Reininger", "mes": 2, "valor": 612.43}, {"filial": "05-BARRA SHOPPING", "fornecedor": "Rafael Leandro Dias", "solicitante": "Rafael Leandro Dias", "mes": 2, "valor": 800.3}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Pamela Ferreira De Santana", "solicitante": "Pamela Ferreira De Santana", "mes": 2, "valor": 928.52}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Roberta Assumpção Marcassa", "solicitante": "Roberta Assumpção Marcassa", "mes": 2, "valor": 4077.02}, {"filial": "OPERACOES", "fornecedor": "Renata Neves", "solicitante": "Renata Neves", "mes": 2, "valor": 4354.55}, {"filial": "OPERACOES", "fornecedor": "Ana Cristina Aires Da Costa", "solicitante": "Ana Cristina Aires Da Costa", "mes": 2, "valor": 2420.31}, {"filial": "17-SANTO ANDRE", "fornecedor": "Eugenio Lucas Silvério Fialho", "solicitante": "Eugenio Lucas Silvério Fialho", "mes": 2, "valor": 584.4}, {"filial": "15-ELDORADO", "fornecedor": "Camila Correia Da Silva", "solicitante": "Camila Correia Da Silva", "mes": 2, "valor": 285.7}, {"filial": "OPERACOES", "fornecedor": "Josimara Ferreira De Santana", "solicitante": "Josimara Ferreira De Santana", "mes": 2, "valor": 1722.7}, {"filial": "15-ELDORADO", "fornecedor": "Rogerio Nicodemos Martins", "solicitante": "Rogerio Nicodemos Martins", "mes": 2, "valor": 354.1}, {"filial": "10-FABRICA CENTRAL", "fornecedor": "Misaque Oliveira", "solicitante": "Misaque Oliveira", "mes": 2, "valor": 527.65}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Mayara Neuma", "solicitante": "Mayara Neuma", "mes": 2, "valor": 2219.93}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Rafael Felipe Eliezer Da Silva", "solicitante": "Rafael Felipe Eliezer Da Silva", "mes": 2, "valor": 1265.45}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Allan Patrick Pereira Quinajo", "solicitante": "Allan Patrick Pereira Quinajo", "mes": 2, "valor": 588.4}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Maria Beatriz Assarito", "solicitante": "Maria Beatriz Assarito", "mes": 2, "valor": 155.5}, {"filial": "27-MOOCA", "fornecedor": "Wendel Henrique Gerônimo Ferreira", "solicitante": "Wendel Henrique Gerônimo Ferreira", "mes": 3, "valor": 3.0}, {"filial": "27-MOOCA", "fornecedor": "Wendel Henrique Gerônimo Ferreira", "solicitante": "Wendel Henrique Gerônimo Ferreira", "mes": 2, "valor": 192.66}, {"filial": "11-ALPHAVILLE", "fornecedor": "Fabio Pimentel Dias", "solicitante": "Fabio Pimentel Dias", "mes": 3, "valor": 923.42}, {"filial": "26-GUARULHOS", "fornecedor": "Adriano Felix De Souza", "solicitante": "Adriano Felix De Souza", "mes": 2, "valor": 601.5}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Nilze Ferreira Camara", "solicitante": "Nilze Ferreira Camara", "mes": 2, "valor": 403.11}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Gabriel Henrique Aguiar Vieira", "solicitante": "Gabriel Henrique Aguiar Vieira", "mes": 2, "valor": 508.85}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Mariana Dal Belo Venancio", "solicitante": "Mariana Dal Belo Venancio", "mes": 2, "valor": 275.87}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Matheus Sousa Teoro", "solicitante": "Matheus Sousa Teoro", "mes": 2, "valor": 128.16}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Rafael Senra Gatto", "solicitante": "Rafael Senra Gatto", "mes": 2, "valor": 124.2}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Leonardo Aragão", "solicitante": "Leonardo Aragão", "mes": 2, "valor": 378.75}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Luis Henrique Springman", "solicitante": "Luis Henrique Springman", "mes": 2, "valor": 1879.67}, {"filial": "17-SANTO ANDRE", "fornecedor": "Ane Caroline De Oliveira Silva", "solicitante": "Ane Caroline De Oliveira Silva", "mes": 3, "valor": 442.96}, {"filial": "OPERACOES", "fornecedor": "Rafael Leandro Dias", "solicitante": "Rafael Leandro Dias", "mes": 2, "valor": 772.39}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Aquiza Souza", "solicitante": "Aquiza Souza", "mes": 2, "valor": 46.3}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Gabrielle Caroline Sanches De Oliveira", "solicitante": "Gabrielle Caroline Sanches De Oliveira", "mes": 2, "valor": 177.85}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Thamires Andrade Lopes Reis", "solicitante": "Thamires Andrade Lopes Reis", "mes": 2, "valor": 77.2}, {"filial": "22-PINHEIROS", "fornecedor": "Tailane Gonçalves Novais", "solicitante": "Tailane Gonçalves Novais", "mes": 2, "valor": 262.2}, {"filial": "07-VILLA LOBOS", "fornecedor": "Rautyeris Barbosa Cardoso", "solicitante": "Rautyeris Barbosa Cardoso", "mes": 3, "valor": 84.2}, {"filial": "17-SANTO ANDRE", "fornecedor": "Jonatas Ricardo Lima Amaro", "solicitante": "Jonatas Ricardo Lima Amaro", "mes": 2, "valor": 28.8}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Aline Moreira", "solicitante": "Aline Moreira", "mes": 2, "valor": 154.25}, {"filial": "22-PINHEIROS", "fornecedor": "Gustavo José Frederico", "solicitante": "Gustavo José Frederico", "mes": 1, "valor": 2258.08}, {"filial": "15-ELDORADO", "fornecedor": "Rogerio Nicodemos Martins", "solicitante": "Rogerio Nicodemos Martins", "mes": 1, "valor": 143.6}, {"filial": "07-VILLA LOBOS", "fornecedor": "Rautyeris Barbosa Cardoso", "solicitante": "Rautyeris Barbosa Cardoso", "mes": 1, "valor": 200.4}, {"filial": "11-ALPHAVILLE", "fornecedor": "Daniel Diaz Reyes", "solicitante": "Daniel Diaz Reyes", "mes": 1, "valor": 1629.69}, {"filial": "11-ALPHAVILLE", "fornecedor": "Fabio Pimentel Dias", "solicitante": "Fabio Pimentel Dias", "mes": 1, "valor": 1126.28}, {"filial": "11-ALPHAVILLE", "fornecedor": "Raydan Araújo", "solicitante": "Raydan Araújo", "mes": 1, "valor": 1158.46}, {"filial": "06-MORUMBI SHOPPING", "fornecedor": "Derivanda Dos Santos", "solicitante": "Derivanda Dos Santos", "mes": 1, "valor": 556.5}, {"filial": "17-SANTO ANDRE", "fornecedor": "Jessica Fernandes Vasques", "solicitante": "Jessica Fernandes Vasques", "mes": 1, "valor": 320.1}, {"filial": "05-BARRA SHOPPING", "fornecedor": "Rafael Leandro Dias", "solicitante": "Rafael Leandro Dias", "mes": 1, "valor": 598.9}, {"filial": "11-ALPHAVILLE", "fornecedor": "Flavio Fernandes Tumaz", "solicitante": "Flavio Fernandes Tumaz", "mes": 1, "valor": 1107.7}, {"filial": "17-SANTO ANDRE", "fornecedor": "Ane Caroline De Oliveira Silva", "solicitante": "Ane Caroline De Oliveira Silva", "mes": 1, "valor": 1007.12}, {"filial": "09-MOEMA", "fornecedor": "Giovanna Dalbem Da Silva", "solicitante": "Giovanna Dalbem Da Silva", "mes": 1, "valor": 621.4}, {"filial": "12-BRAZ LEME", "fornecedor": "Giovanna Franco Sanatanna", "solicitante": "Giovanna Franco Sanatanna", "mes": 1, "valor": 437.5}, {"filial": "30-MORUMBI TOWN", "fornecedor": "Munike Norania Oliveira De Miranda", "solicitante": "Munike Norania Oliveira De Miranda", "mes": 1, "valor": 432.4}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Roberta Assumpção Marcassa", "solicitante": "Roberta Assumpção Marcassa", "mes": 1, "valor": 3728.23}, {"filial": "10-FABRICA CENTRAL", "fornecedor": "Misaque Oliveira", "solicitante": "Misaque Oliveira", "mes": 1, "valor": 508.78}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Mayara Neuma", "solicitante": "Mayara Neuma", "mes": 1, "valor": 891.61}, {"filial": "OPERACOES", "fornecedor": "Renata Neves", "solicitante": "Renata Neves", "mes": 1, "valor": 1618.22}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Luis Henrique Springman", "solicitante": "Luis Henrique Springman", "mes": 1, "valor": 740.35}, {"filial": "OPERACOES", "fornecedor": "Ana Cristina Aires Da Costa", "solicitante": "Ana Cristina Aires Da Costa", "mes": 1, "valor": 816.68}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Allan Patrick Pereira Quinajo", "solicitante": "Allan Patrick Pereira Quinajo", "mes": 1, "valor": 142.8}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Marcus Vinicius Afonso Ricino", "solicitante": "Marcus Vinicius Afonso Ricino", "mes": 1, "valor": 411.1}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Rafael Felipe Eliezer Da Silva", "solicitante": "Rafael Felipe Eliezer Da Silva", "mes": 1, "valor": 1557.09}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Pamela Ferreira De Santana", "solicitante": "Pamela Ferreira De Santana", "mes": 1, "valor": 247.1}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Aquiza Souza", "solicitante": "Aquiza Souza", "mes": 1, "valor": 251.6}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Gabriel Henrique Aguiar Vieira", "solicitante": "Gabriel Henrique Aguiar Vieira", "mes": 1, "valor": 512.04}, {"filial": "26-GUARULHOS", "fornecedor": "Adriano Felix De Souza", "solicitante": "Adriano Felix De Souza", "mes": 1, "valor": 15.0}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Leonardo Aragão", "solicitante": "Leonardo Aragão", "mes": 1, "valor": 446.56}, {"filial": "27-MOOCA", "fornecedor": "Wendel Henrique Gerônimo Ferreira", "solicitante": "Wendel Henrique Gerônimo Ferreira", "mes": 1, "valor": 237.4}, {"filial": "06-MORUMBI SHOPPING", "fornecedor": "Ana Cláudia Teixeira Zoqbi", "solicitante": "Ana Cláudia Teixeira Zoqbi", "mes": 1, "valor": 407.78}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Paulo Roberto Catharino", "solicitante": "Paulo Roberto Catharino", "mes": 1, "valor": 96.91}, {"filial": "15-ELDORADO", "fornecedor": "Camila Correia Da Silva", "solicitante": "Camila Correia Da Silva", "mes": 1, "valor": 192.8}, {"filial": "OPERACOES", "fornecedor": "Josimara Ferreira De Santana", "solicitante": "Josimara Ferreira De Santana", "mes": 1, "valor": 1384.49}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Rafael Senra Gatto", "solicitante": "Rafael Senra Gatto", "mes": 1, "valor": 154.56}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Julia De Biaggi Stavale", "solicitante": "Julia De Biaggi Stavale", "mes": 1, "valor": 139.15}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Maria Reininger", "solicitante": "Maria Reininger", "mes": 1, "valor": 153.0}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Nilze Ferreira Camara", "solicitante": "Nilze Ferreira Camara", "mes": 1, "valor": 145.46}, {"filial": "13-CAMPINAS", "fornecedor": "Angela Carla De Oliveira", "solicitante": "Angela Carla De Oliveira", "mes": 3, "valor": 3.0}, {"filial": "13-CAMPINAS", "fornecedor": "Angela Carla De Oliveira", "solicitante": "Angela Carla De Oliveira", "mes": 1, "valor": 36.1}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Julia Lemes Fogaça", "solicitante": "Julia Lemes Fogaça", "mes": 1, "valor": 67.88}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Matheus Sousa Teoro", "solicitante": "Matheus Sousa Teoro", "mes": 1, "valor": 98.55}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Maria Beatriz Assarito", "solicitante": "Maria Beatriz Assarito", "mes": 1, "valor": 83.17}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Renata Moraes", "solicitante": "Renata Moraes", "mes": 1, "valor": 9.6}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Matheus Henrique Bosso", "solicitante": "Matheus Henrique Bosso", "mes": 1, "valor": 114.22}, {"filial": "09-MOEMA", "fornecedor": "Giovanna Dalbem Da Silva", "solicitante": "Giovanna Dalbem Da Silva", "mes": 3, "valor": 5.0}, {"filial": "17-SANTO ANDRE", "fornecedor": "Eugenio Lucas Silvério Fialho", "solicitante": "Eugenio Lucas Silvério Fialho", "mes": 1, "valor": 447.1}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Patricia Ferreira De Oliveira", "solicitante": "Patricia Ferreira De Oliveira", "mes": 1, "valor": 35.76}, {"filial": "22-PINHEIROS", "fornecedor": "Gustavo José Frederico", "solicitante": "Gustavo José Frederico", "mes": 3, "valor": 4124.1}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Gabrielle Caroline Sanches De Oliveira", "solicitante": "Gabrielle Caroline Sanches De Oliveira", "mes": 1, "valor": 83.64}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Aline Moreira", "solicitante": "Aline Moreira", "mes": 1, "valor": 297.5}, {"filial": "09-MOEMA", "fornecedor": "Giovanna Dalbem Da Silva", "solicitante": "Giovanna Dalbem Da Silva", "mes": 0, "valor": 588.5}, {"filial": "11-ALPHAVILLE", "fornecedor": "Fabio Pimentel Dias", "solicitante": "Fabio Pimentel Dias", "mes": 0, "valor": 1291.59}, {"filial": "06-MORUMBI SHOPPING", "fornecedor": "Derivanda Dos Santos", "solicitante": "Derivanda Dos Santos", "mes": 0, "valor": 1802.99}, {"filial": "22-PINHEIROS", "fornecedor": "Gustavo José Frederico", "solicitante": "Gustavo José Frederico", "mes": 0, "valor": 726.48}, {"filial": "17-SANTO ANDRE", "fornecedor": "Jessica Fernandes Vasques", "solicitante": "Jessica Fernandes Vasques", "mes": 0, "valor": 1717.78}, {"filial": "11-ALPHAVILLE", "fornecedor": "Daniel Diaz Reyes", "solicitante": "Daniel Diaz Reyes", "mes": 0, "valor": 1541.5}, {"filial": "11-ALPHAVILLE", "fornecedor": "Flavio Fernandes Tumaz", "solicitante": "Flavio Fernandes Tumaz", "mes": 0, "valor": 1329.23}, {"filial": "OPERACOES", "fornecedor": "Renata Neves", "solicitante": "Renata Neves", "mes": 0, "valor": 4068.19}, {"filial": "30-MORUMBI TOWN", "fornecedor": "Munike Norania Oliveira De Miranda", "solicitante": "Munike Norania Oliveira De Miranda", "mes": 0, "valor": 365.16}, {"filial": "12-BRAZ LEME", "fornecedor": "Giovanna Franco Sanatanna", "solicitante": "Giovanna Franco Sanatanna", "mes": 0, "valor": 452.8}, {"filial": "26-GUARULHOS", "fornecedor": "Adriano Felix De Souza", "solicitante": "Adriano Felix De Souza", "mes": 0, "valor": 625.96}, {"filial": "11-ALPHAVILLE", "fornecedor": "Raydan Araújo", "solicitante": "Raydan Araújo", "mes": 0, "valor": 1471.22}, {"filial": "05-BARRA SHOPPING", "fornecedor": "Rafael Leandro Dias", "solicitante": "Rafael Leandro Dias", "mes": 0, "valor": 723.2}, {"filial": "32-TATUAPE", "fornecedor": "Stephanie Louise De Barros Dourado", "solicitante": "Stephanie Louise De Barros Dourado", "mes": 0, "valor": 304.3}, {"filial": "17-SANTO ANDRE", "fornecedor": "Jonatas Ricardo Lima Amaro", "solicitante": "Jonatas Ricardo Lima Amaro", "mes": 0, "valor": 518.59}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Maria Reininger", "solicitante": "Maria Reininger", "mes": 0, "valor": 35.8}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Luis Henrique Springman", "solicitante": "Luis Henrique Springman", "mes": 0, "valor": 933.08}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Mayara Neuma", "solicitante": "Mayara Neuma", "mes": 0, "valor": 1498.84}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Roberta Assumpção Marcassa", "solicitante": "Roberta Assumpção Marcassa", "mes": 0, "valor": 2827.07}, {"filial": "OPERACOES", "fornecedor": "Renata Neves", "solicitante": "Renata Neves", "mes": 3, "valor": 3949.36}, {"filial": "17-SANTO ANDRE", "fornecedor": "Ane Caroline De Oliveira Silva", "solicitante": "Ane Caroline De Oliveira Silva", "mes": 0, "valor": 600.36}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Leonardo Aragão", "solicitante": "Leonardo Aragão", "mes": 0, "valor": 181.6}, {"filial": "OPERACOES", "fornecedor": "Camila Rodrigues De Paiva", "solicitante": "Camila Rodrigues De Paiva", "mes": 0, "valor": 223.2}, {"filial": "06-MORUMBI SHOPPING", "fornecedor": "Ana Cláudia Teixeira Zoqbi", "solicitante": "Ana Cláudia Teixeira Zoqbi", "mes": 0, "valor": 317.01}, {"filial": "30-MORUMBI TOWN", "fornecedor": "Munike Norania Oliveira De Miranda", "solicitante": "Munike Norania Oliveira De Miranda", "mes": 3, "valor": 434.69}, {"filial": "11-ALPHAVILLE", "fornecedor": "Raydan Araújo", "solicitante": "Raydan Araújo", "mes": 3, "valor": 1015.82}, {"filial": "15-ELDORADO", "fornecedor": "Rogerio Nicodemos Martins", "solicitante": "Rogerio Nicodemos Martins", "mes": 0, "valor": 393.96}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Renata Moraes", "solicitante": "Renata Moraes", "mes": 0, "valor": 110.2}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Gabrielle Caroline Sanches De Oliveira", "solicitante": "Gabrielle Caroline Sanches De Oliveira", "mes": 0, "valor": 328.59}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Nilze Ferreira Camara", "solicitante": "Nilze Ferreira Camara", "mes": 0, "valor": 47.9}, {"filial": "13-CAMPINAS", "fornecedor": "Angela Carla De Oliveira", "solicitante": "Angela Carla De Oliveira", "mes": 0, "valor": 94.7}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Aline Moreira", "solicitante": "Aline Moreira", "mes": 0, "valor": 578.22}, {"filial": "27-MOOCA", "fornecedor": "Wendel Henrique Gerônimo Ferreira", "solicitante": "Wendel Henrique Gerônimo Ferreira", "mes": 0, "valor": 82.2}, {"filial": "OPERACOES", "fornecedor": "Ana Cristina Aires Da Costa", "solicitante": "Ana Cristina Aires Da Costa", "mes": 0, "valor": 450.1}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Allan Patrick Pereira Quinajo", "solicitante": "Allan Patrick Pereira Quinajo", "mes": 0, "valor": 25.9}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Gabriel Henrique Aguiar Vieira", "solicitante": "Gabriel Henrique Aguiar Vieira", "mes": 0, "valor": 308.21}, {"filial": "OPERACOES", "fornecedor": "Josimara Ferreira De Santana", "solicitante": "Josimara Ferreira De Santana", "mes": 0, "valor": 200.01}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Paulo Roberto Catharino", "solicitante": "Paulo Roberto Catharino", "mes": 0, "valor": 47.2}, {"filial": "07-VILLA LOBOS", "fornecedor": "Rautyeris Barbosa Cardoso", "solicitante": "Rautyeris Barbosa Cardoso", "mes": 0, "valor": 60.7}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Thamires Andrade Lopes Reis", "solicitante": "Thamires Andrade Lopes Reis", "mes": 0, "valor": 157.68}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Aquiza Souza", "solicitante": "Aquiza Souza", "mes": 0, "valor": 90.76}, {"filial": "10-FABRICA CENTRAL", "fornecedor": "Misaque Oliveira", "solicitante": "Misaque Oliveira", "mes": 0, "valor": 334.0}, {"filial": "15-ELDORADO", "fornecedor": "Camila Correia Da Silva", "solicitante": "Camila Correia Da Silva", "mes": 0, "valor": 50.9}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Rafael Felipe Eliezer Da Silva", "solicitante": "Rafael Felipe Eliezer Da Silva", "mes": 0, "valor": 87.7}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Matheus Henrique Bosso", "solicitante": "Matheus Henrique Bosso", "mes": 0, "valor": 32.69}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Leonardo Aragão", "solicitante": "Leonardo Aragão", "mes": 3, "valor": 199.8}, {"filial": "22-PINHEIROS", "fornecedor": "Tailane Gonçalves Novais", "solicitante": "Tailane Gonçalves Novais", "mes": 3, "valor": 1041.32}, {"filial": "OPERACOES", "fornecedor": "Josimara Ferreira De Santana", "solicitante": "Josimara Ferreira De Santana", "mes": 3, "valor": 2696.15}, {"filial": "12-BRAZ LEME", "fornecedor": "Giovanna Franco Sanatanna", "solicitante": "Giovanna Franco Sanatanna", "mes": 3, "valor": 501.47}, {"filial": "26-GUARULHOS", "fornecedor": "Adriano Felix De Souza", "solicitante": "Adriano Felix De Souza", "mes": 3, "valor": 614.3}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Roberta Assumpção Marcassa", "solicitante": "Roberta Assumpção Marcassa", "mes": 3, "valor": 3950.89}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Allan Patrick Pereira Quinajo", "solicitante": "Allan Patrick Pereira Quinajo", "mes": 3, "valor": 148.5}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Pamela Ferreira De Santana", "solicitante": "Pamela Ferreira De Santana", "mes": 3, "valor": 127.51}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Gabriel Henrique Aguiar Vieira", "solicitante": "Gabriel Henrique Aguiar Vieira", "mes": 3, "valor": 522.31}, {"filial": "OPERACOES", "fornecedor": "Ana Cristina Aires Da Costa", "solicitante": "Ana Cristina Aires Da Costa", "mes": 3, "valor": 1708.84}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Renata Marmitt Pilatti", "solicitante": "Renata Marmitt Pilatti", "mes": 3, "valor": 23.63}, {"filial": "OPERACOES", "fornecedor": "Rafael Leandro Dias", "solicitante": "Rafael Leandro Dias", "mes": 3, "valor": 1962.48}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Rafael Felipe Eliezer Da Silva", "solicitante": "Rafael Felipe Eliezer Da Silva", "mes": 3, "valor": 1234.1}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Luis Henrique Springman", "solicitante": "Luis Henrique Springman", "mes": 3, "valor": 828.07}, {"filial": "11-ALPHAVILLE", "fornecedor": "Daniel Diaz Reyes", "solicitante": "Daniel Diaz Reyes", "mes": 3, "valor": 1427.82}, {"filial": "11-ALPHAVILLE", "fornecedor": "Flavio Fernandes Tumaz", "solicitante": "Flavio Fernandes Tumaz", "mes": 3, "valor": 1403.1}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Nilze Ferreira Camara", "solicitante": "Nilze Ferreira Camara", "mes": 3, "valor": 115.04}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Maria Reininger", "solicitante": "Maria Reininger", "mes": 3, "valor": 246.48}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Mayara Neuma", "solicitante": "Mayara Neuma", "mes": 3, "valor": 780.73}, {"filial": "10-FABRICA CENTRAL", "fornecedor": "Misaque Oliveira", "solicitante": "Misaque Oliveira", "mes": 3, "valor": 143.1}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Rafael Senra Gatto", "solicitante": "Rafael Senra Gatto", "mes": 3, "valor": 143.3}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Matheus Sousa Teoro", "solicitante": "Matheus Sousa Teoro", "mes": 3, "valor": 77.16}, {"filial": "17-SANTO ANDRE", "fornecedor": "Gustavo José Frederico", "solicitante": "Gustavo José Frederico", "mes": 3, "valor": 1439.14}, {"filial": "08-OSCAR FREIRE", "fornecedor": "Felipe Rechtman Romero Simoes", "solicitante": "Felipe Rechtman Romero Simoes", "mes": 3, "valor": 504.01}, {"filial": "17-SANTO ANDRE", "fornecedor": "Eugenio Lucas Silvério Fialho", "solicitante": "Eugenio Lucas Silvério Fialho", "mes": 3, "valor": 139.5}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Thamires Andrade Lopes Reis", "solicitante": "Thamires Andrade Lopes Reis", "mes": 3, "valor": 119.12}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Matheus Henrique Bosso", "solicitante": "Matheus Henrique Bosso", "mes": 3, "valor": 114.6}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Felipe Carmelo De Souza", "solicitante": "Felipe Carmelo De Souza", "mes": 3, "valor": 93.2}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Marcus Vinicius Afonso Ricino", "solicitante": "Marcus Vinicius Afonso Ricino", "mes": 3, "valor": 107.9}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Aquiza Souza", "solicitante": "Aquiza Souza", "mes": 3, "valor": 327.92}, {"filial": "02-LEOPOLDO", "fornecedor": "Tiago Barros Da Silva", "solicitante": "Tiago Barros Da Silva", "mes": 3, "valor": 517.23}, {"filial": "26-GUARULHOS", "fornecedor": "Mario Ferraz De Souza", "solicitante": "Mario Ferraz De Souza", "mes": 3, "valor": 515.77}, {"filial": "06-MORUMBI SHOPPING", "fornecedor": "Ana Cláudia Teixeira Zoqbi", "solicitante": "Ana Cláudia Teixeira Zoqbi", "mes": 3, "valor": 35.0}, {"filial": "10-FABRICA CENTRAL", "fornecedor": "Robson Paiva", "solicitante": "Robson Paiva", "mes": 3, "valor": 139.18}, {"filial": "15-ELDORADO", "fornecedor": "Rogerio Nicodemos Martins", "solicitante": "Rogerio Nicodemos Martins", "mes": 3, "valor": 52.38}, {"filial": "24-RIBEIRAO PRETO", "fornecedor": "Carlos Alessandro Crispim Lopes", "solicitante": "Carlos Alessandro Crispim Lopes", "mes": 3, "valor": 25.3}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Eduardo Cesar Curti", "solicitante": "Eduardo Cesar Curti", "mes": 3, "valor": 22.54}, {"filial": "OPERACOES", "fornecedor": "Gustavo José Frederico", "solicitante": "Gustavo José Frederico", "mes": 3, "valor": 310.24}, {"filial": "ESCRITÓRIO CENTRAL", "fornecedor": "Renata Moraes", "solicitante": "Renata Moraes", "mes": 3, "valor": 100.6}]}};
+
+const PKGS = [
+  { key: 'ecolab',     label: 'Ecolab',      full: 'Ecolab — Produtos de Limpeza' },
+  { key: 'reembolso',  label: 'Reembolsos',  full: 'Reembolsos de Viagens e Transporte' },
+  { key: 'jkc',        label: 'JKC',         full: 'JKC Personal Care' },
+  { key: 'lalamove',   label: 'Lalamove',    full: 'Lalamove — Logística' },
+  { key: 'uniformes',  label: 'Uniformes',   full: 'Uniformes' },
+  { key: 'taxi',       label: '99Táxi',      full: '99Táxi — Transporte de Colaboradores' },
+  { key: 'utensilios', label: 'Utensílios',  full: 'Utensílios de Copa, Cozinha e Salão' },
+  { key: 'epi',        label: 'EPI',         full: 'EPI — Equipamentos de Proteção Individual' },
+];
+const MONTHS = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+const CURRENT_MONTH = 4; // Abril = idx 3, mas temos dados até maio parcial; usar 3 como último completo
+
+function farClass(real, meta) {
+  if (!meta || meta <= 0) return 'yellow';
+  const r = real / meta;
+  if (r <= 1.0) return 'green';
+  if (r <= 1.10) return 'yellow';
+  return 'red';
+}
+function farLabel(c) { return {green:'OK — Dentro da Meta', yellow:'Atenção — Leve Excesso', red:'Excedeu — Acima de 10%'}[c]; }
+function farLabelShort(c) { return {green:'OK', yellow:'Atenção', red:'Excedeu'}[c]; }
+
+const fmt = v => 'R$ ' + (v||0).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+const fmtK = v => {
+  if (Math.abs(v) >= 1000) return 'R$ ' + (v/1000).toLocaleString('pt-BR',{maximumFractionDigits:0}) + 'k';
+  return 'R$ ' + (v||0).toLocaleString('pt-BR',{maximumFractionDigits:0});
+};
+const pct = (r, m) => m > 0 ? ((r/m)*100).toFixed(1).replace('.',',') + '%' : '—';
+
+// ====== BUILD NAV ======
+const nav = document.getElementById('nav-tabs');
+const main = document.getElementById('main-content');
+const pages = [{key:'dash', label:'📊 Dashboard Geral'}].concat(PKGS.map(p=>({key:p.key, label:p.label})));
+
+pages.forEach((p, i) => {
+  const btn = document.createElement('button');
+  btn.textContent = p.label;
+  btn.dataset.key = p.key;
+  if (i === 0) btn.classList.add('active');
+  btn.onclick = () => switchPage(p.key);
+  nav.appendChild(btn);
+});
+
+function switchPage(key) {
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.key === key));
+  document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === 'pg-' + key));
+}
+
+// ====== DASHBOARD PAGE ======
+function buildDash() {
+  const pg = document.createElement('div');
+  pg.className = 'page active';
+  pg.id = 'pg-dash';
+
+  // Compute totals
+  const LM = 3; // last complete month index (Abril)
+  let totMeta = 0, totReal = 0;
+  PKGS.forEach(p => {
+    for (let i = 0; i <= LM; i++) {
+      totMeta += DATA.meta[p.key].meta[i];
+      totReal += DATA.meta[p.key].real[i];
+    }
+  });
+  const varTot = totReal - totMeta;
+  const fTot = farClass(totReal, totMeta);
+
+  pg.innerHTML = `
+    <div class="page-hero">
+      <h1>Dashboard Pacotes 2026</h1>
+      <p>Última atualização: Abril 2026 · Competência Jan–Abr</p>
+    </div>
+
+    <div class="grid grid-5">
+      <div class="card" style="border-left:4px solid var(--cabana-orange)">
+        <h3>Meta Total 2026</h3>
+        <div class="val" style="color:var(--cabana-orange)">${fmt(PKGS.reduce((a,p) => a + DATA.meta[p.key].meta.reduce((s,v)=>s+v,0), 0))}</div>
+        <div class="sub">8 pacotes · Jan–Dez 2026</div>
+      </div>
+      <div class="card">
+        <h3>Meta YTD (Jan–Abr)</h3>
+        <div class="val">${fmt(totMeta)}</div>
+        <div class="sub">8 pacotes combinados</div>
+      </div>
+      <div class="card">
+        <h3>Realizado YTD</h3>
+        <div class="val">${fmt(totReal)}</div>
+        <div class="sub">${pct(totReal, totMeta)} da meta YTD</div>
+      </div>
+      <div class="card">
+        <h3>Variação YTD</h3>
+        <div class="val ${varTot > 0 ? 'pos' : 'neg'}">${varTot > 0 ? '+' : ''}${fmt(varTot)}</div>
+        <div class="sub">${varTot > 0 ? 'Acima do orçado' : 'Dentro do orçado'}</div>
+      </div>
+      <div class="card">
+        <h3>Status Consolidado</h3>
+        <div class="val"><span class="farol-dot dot-${fTot}"></span>${farLabelShort(fTot)}</div>
+        <div class="sub">${fTot === 'green' ? 'Gasto controlado' : fTot === 'yellow' ? 'Monitorar de perto' : 'Revisão necessária'}</div>
+      </div>
+    </div>
+
+    <div class="section-title" style="display:flex;align-items:center;justify-content:space-between">
+      <span>Farol YTD — Janeiro a Abril 2026</span>
+      <button class="slide-btn" onclick="openSlide()">▶ Apresentar Faróis</button>
+    </div>
+    <div class="grid grid-4" id="farol-ytd"></div>
+
+    <div class="section-title" style="margin-top:28px;display:flex;align-items:center;justify-content:space-between">
+      <span>Farol Mês a Mês — Todos os Pacotes</span>
+      <button class="slide-btn" onclick="openSlide()">▶ Apresentar</button>
+    </div>
+    <div class="filters-bar" style="margin-bottom:12px">
+      <div class="fil-group">
+        <label>Selecionar Meses (múltipla seleção)</label>
+        <div id="dash-mes-checks" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:2px">
+          <label class="mes-chk"><input type="checkbox" value="0" onchange="renderDashMes()"> Jan</label>
+          <label class="mes-chk"><input type="checkbox" value="1" onchange="renderDashMes()"> Fev</label>
+          <label class="mes-chk"><input type="checkbox" value="2" onchange="renderDashMes()"> Mar</label>
+          <label class="mes-chk active-chk"><input type="checkbox" value="3" checked onchange="renderDashMes()"> Abr ✓</label>
+          <label class="mes-chk"><input type="checkbox" value="4" onchange="renderDashMes()"> Mai</label>
+          <label class="mes-chk"><input type="checkbox" value="5" onchange="renderDashMes()"> Jun</label>
+          <label class="mes-chk"><input type="checkbox" value="6" onchange="renderDashMes()"> Jul</label>
+          <label class="mes-chk"><input type="checkbox" value="7" onchange="renderDashMes()"> Ago</label>
+          <label class="mes-chk"><input type="checkbox" value="8" onchange="renderDashMes()"> Set</label>
+          <label class="mes-chk"><input type="checkbox" value="9" onchange="renderDashMes()"> Out</label>
+          <label class="mes-chk"><input type="checkbox" value="10" onchange="renderDashMes()"> Nov</label>
+          <label class="mes-chk"><input type="checkbox" value="11" onchange="renderDashMes()"> Dez</label>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;align-self:flex-end;padding-bottom:4px">
+        <button class="btn-selall" onclick="selectAllMeses()">✓ Todos</button>
+        <button class="btn-clrmeses" onclick="clearMeses()">✕ Limpar</button>
+        <span style="font-size:11px;color:var(--cabana-green);opacity:0.6">Selecione um ou mais meses</span>
+      </div>
+    </div>
+    <div id="farol-mes-wrap">
+      <div class="grid grid-4" id="farol-mes"></div>
+
+      <div style="margin-top:16px" class="card scroll-x">
+        <table id="tbl-dash-mes">
+          <thead></thead><tbody></tbody>
+        </table>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h3 style="font-size:10px;margin-bottom:12px;text-transform:uppercase;letter-spacing:2px">Meta × Realizado — Mês Selecionado</h3>
+        <div class="chart-wrap-lg"><canvas id="chart-mes-bar"></canvas></div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:32px">Resumo Executivo — YTD por Pacote</div>
+    <div class="card scroll-x">
+      <table>
+        <thead><tr>
+          <th>Pacote</th>
+          <th>Meta YTD</th><th>Realizado YTD</th><th>Var. YTD</th><th>Status YTD</th>
+        </tr></thead>
+        <tbody id="tbl-dash-body"></tbody>
+      </table>
+    </div>
+
+    <div class="grid grid-2" style="margin-top:16px">
+      <div class="card">
+        <h3 style="font-size:11px;margin-bottom:12px">Meta × Realizado YTD por Pacote</h3>
+        <div class="chart-wrap-lg"><canvas id="chart-ytd-bar"></canvas></div>
+      </div>
+      <div class="card">
+        <h3 style="font-size:11px;margin-bottom:12px">Distribuição do Gasto YTD</h3>
+        <div class="chart-wrap-lg"><canvas id="chart-pie"></canvas></div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:32px">Comparativo Geral — 2025 × 2026 (Jan–Abr YTD)</div>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3 style="font-size:10px;margin-bottom:12px;text-transform:uppercase;letter-spacing:2px">2025 × 2026 por Pacote (YTD Jan–Abr)</h3>
+        <div class="chart-wrap-lg"><canvas id="chart-cmp-dash"></canvas></div>
+      </div>
+      <div class="card scroll-x">
+        <h3 style="font-size:10px;margin-bottom:12px;text-transform:uppercase;letter-spacing:2px">Tabela Comparativa YTD</h3>
+        <table>
+          <thead><tr>
+            <th>Pacote</th><th>2025 YTD</th><th>2026 Meta</th><th>2026 Real</th><th>Δ vs 2025</th><th>Δ vs Meta</th>
+          </tr></thead>
+          <tbody id="tbl-cmp-dash"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:28px">2025 Total Anual × 2026 — Progresso do Ano</div>
+    <div class="card scroll-x">
+      <table>
+        <thead><tr>
+          <th>Pacote</th>
+          <th>2025 Total Ano</th>
+          <th>2026 Meta Ano</th>
+          <th>2026 Real YTD</th>
+          <th>% Exec. vs 2025</th>
+          <th>% Exec. vs Meta</th>
+        </tr></thead>
+        <tbody id="tbl-cmp-anual"></tbody>
+      </table>
+    </div>
+  `;
+  main.appendChild(pg);
+
+  const fYtdEl = pg.querySelector('#farol-ytd');
+  const tbody = pg.querySelector('#tbl-dash-body');
+
+  const colors = ['#0A6B2C','#A8E067','#FF5028','#2563eb','#f59e0b','#8b5cf6','#ec4899','#14b8a6'];
+
+  // YTD section
+  const ytdData = PKGS.map((p, idx) => {
+    const m = DATA.meta[p.key];
+    let mYtd = 0, rYtd = 0;
+    for (let i = 0; i <= LM; i++) { mYtd += m.meta[i]; rYtd += m.real[i]; }
+    const fY = farClass(rYtd, mYtd);
+
+    const ytdComKey = 'comment_ytd_' + p.key;
+    const ytdComVal = localStorage.getItem(ytdComKey) || '';
+    const ytdComTs = localStorage.getItem(ytdComKey + '_ts') || '';
+    fYtdEl.insertAdjacentHTML('beforeend', `
+      <div class="farol-card fc-${fY}">
+        <div class="fc-name">${p.full}</div>
+        <div class="fc-val"><span class="farol-dot dot-${fY}"></span>${fmtK(rYtd)}</div>
+        <div class="fc-sub">Meta: ${fmtK(mYtd)} &nbsp;|&nbsp; ${pct(rYtd, mYtd)}</div>
+        <div class="comment-wrap">
+          <textarea class="comment-box" placeholder="✏️ Comentário YTD..." data-key="${ytdComKey}" onblur="saveComment(this)">${ytdComVal}</textarea>
+          ${ytdComTs ? `<div class="comment-ts">${ytdComTs}</div>` : ''}
+        </div>
+      </div>`);
+
+    const vY = rYtd - mYtd;
+    tbody.insertAdjacentHTML('beforeend', `
+      <tr>
+        <td><strong>${p.full}</strong></td>
+        <td>${fmt(mYtd)}</td><td>${fmt(rYtd)}</td>
+        <td class="${vY > 0 ? 'pos' : 'neg'}">${vY > 0 ? '+' : ''}${fmt(vY)}</td>
+        <td><span class="badge badge-${fY}">${farLabelShort(fY)}</span></td>
+      </tr>`);
+
+    return { label: p.label, meta: mYtd, real: rYtd, color: colors[idx % colors.length] };
+  });
+
+  // YTD total row
+  tbody.insertAdjacentHTML('beforeend', `
+    <tr class="total">
+      <td>TOTAL GERAL</td>
+      <td>${fmt(totMeta)}</td><td>${fmt(totReal)}</td>
+      <td class="${varTot > 0 ? 'pos' : 'neg'}">${varTot > 0 ? '+' : ''}${fmt(varTot)}</td>
+      <td><span class="badge badge-${fTot}">${farLabelShort(fTot)}</span></td>
+    </tr>`);
+
+  // ---- MÊS A MÊS RENDER ----
+  let mesBarChart = null;
+  window.renderDashMes = function() {
+    const checked = [...document.querySelectorAll('#dash-mes-checks input:checked')].map(c => parseInt(c.value));
+    if (checked.length === 0) return;
+    const selLabel = checked.map(i => MONTHS[i]).join(', ');
+    const fMesEl = document.getElementById('farol-mes');
+    fMesEl.innerHTML = '';
+
+    const mesData = PKGS.map((p, idx) => {
+      const m = DATA.meta[p.key];
+      const mMes = checked.reduce((a, i) => a + m.meta[i], 0);
+      const rMes = checked.reduce((a, i) => a + m.real[i], 0);
+      const fc = farClass(rMes, mMes);
+      const mesComKey = 'comment_mes_' + p.key + '_' + checked.join('-');
+      const mesComVal = localStorage.getItem(mesComKey) || '';
+      const mesComTs = localStorage.getItem(mesComKey + '_ts') || '';
+      fMesEl.insertAdjacentHTML('beforeend', `
+        <div class="farol-card fc-${fc}">
+          <div class="fc-name" style="cursor:pointer" onclick="switchPage('${p.key}')">${p.full} ↗</div>
+          <div class="fc-val"><span class="farol-dot dot-${fc}"></span>${fmtK(rMes)}</div>
+          <div class="fc-sub">Meta: ${fmtK(mMes)} &nbsp;|&nbsp; ${pct(rMes, mMes)}</div>
+          <div class="comment-wrap">
+            <textarea class="comment-box" placeholder="✏️ Comentário ${selLabel}..." data-key="${mesComKey}" onblur="saveComment(this)">${mesComVal}</textarea>
+            ${mesComTs ? `<div class="comment-ts">${mesComTs}</div>` : ''}
+          </div>
+        </div>`);
+      return { label: p.label, meta: mMes, real: rMes, color: colors[idx] };
+    });
+
+    // Table mes
+    const tblMes = document.getElementById('tbl-dash-mes');
+    tblMes.querySelector('thead').innerHTML = `<tr>
+      <th>Pacote</th><th>Meta (${selLabel})</th><th>Realizado (${selLabel})</th>
+      <th>Variação</th><th>%</th><th>Status</th>
+    </tr>`;
+    const tbodyM = tblMes.querySelector('tbody');
+    tbodyM.innerHTML = '';
+    let totMetaM = 0, totRealM = 0;
+    mesData.forEach(d => {
+      const v = d.real - d.meta;
+      const fc = farClass(d.real, d.meta);
+      totMetaM += d.meta; totRealM += d.real;
+      tbodyM.insertAdjacentHTML('beforeend', `
+        <tr>
+          <td><strong>${PKGS.find(p=>p.label===d.label).full}</strong></td>
+          <td>${fmt(d.meta)}</td>
+          <td>${fmt(d.real)}</td>
+          <td class="${v>0?'pos':'neg'}">${v>0?'+':''}${fmt(v)}</td>
+          <td class="${v>0?'pos':'neg'}">${pct(d.real,d.meta)}</td>
+          <td><span class="badge badge-${fc}">${farLabelShort(fc)}</span></td>
+        </tr>`);
+    });
+    const vT = totRealM - totMetaM, fcT = farClass(totRealM, totMetaM);
+    tbodyM.insertAdjacentHTML('beforeend', `
+      <tr class="total">
+        <td>TOTAL</td><td>${fmt(totMetaM)}</td><td>${fmt(totRealM)}</td>
+        <td class="${vT>0?'pos':'neg'}">${vT>0?'+':''}${fmt(vT)}</td>
+        <td class="${vT>0?'pos':'neg'}">${pct(totRealM,totMetaM)}</td>
+        <td><span class="badge badge-${fcT}">${farLabelShort(fcT)}</span></td>
+      </tr>`);
+
+    // Bar chart mês
+    if (mesBarChart) mesBarChart.destroy();
+    mesBarChart = new Chart(document.getElementById('chart-mes-bar'), {
+      type: 'bar',
+      data: {
+        labels: mesData.map(d => d.label),
+        datasets: [
+          { label: 'Meta', data: mesData.map(d => d.meta), backgroundColor: 'rgba(10,107,44,0.2)', borderColor: '#0A6B2C', borderWidth: 2, borderRadius: 4 },
+          { label: 'Realizado', data: mesData.map(d => d.real), backgroundColor: mesData.map(d => {
+            const f = farClass(d.real, d.meta);
+            return f==='green'?'rgba(16,185,129,0.85)':f==='yellow'?'rgba(245,158,11,0.85)':'rgba(239,68,68,0.85)';
+          }), borderRadius: 4 }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: 'top', labels: { font: { size: 11 } } },
+          title: { display: true, text: selLabel + ' 2026 — Meta × Realizado', font: { size: 12, weight: '600' }, color: '#0A6B2C' } },
+        scales: { y: { ticks: { callback: v => fmtK(v), font: { size: 10 } }, grid: { color: 'rgba(10,107,44,0.08)' } } }
+      }
+    });
+  };
+  renderDashMes(); // render com mês padrão (Abril)
+
+  // Charts YTD
+  new Chart(pg.querySelector('#chart-ytd-bar'), {
+    type: 'bar',
+    data: {
+      labels: ytdData.map(d => d.label),
+      datasets: [
+        { label: 'Meta YTD', data: ytdData.map(d => d.meta), backgroundColor: 'rgba(10,107,44,0.25)', borderColor: '#0A6B2C', borderWidth: 2, borderRadius: 4 },
+        { label: 'Realizado YTD', data: ytdData.map(d => d.real), backgroundColor: ytdData.map(d => {
+          const f = farClass(d.real, d.meta);
+          return f === 'green' ? 'rgba(16,185,129,0.85)' : f === 'yellow' ? 'rgba(245,158,11,0.85)' : 'rgba(239,68,68,0.85)';
+        }), borderRadius: 4 },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top', labels: { font: { size: 11 } } } },
+      scales: { y: { ticks: { callback: v => fmtK(v), font: { size: 10 } }, grid: { color: 'rgba(10,107,44,0.08)' } } }
+    }
+  });
+
+  new Chart(pg.querySelector('#chart-pie'), {
+    type: 'doughnut',
+    data: {
+      labels: ytdData.map(d => d.label),
+      datasets: [{ data: ytdData.map(d => d.real), backgroundColor: colors, borderWidth: 2, borderColor: '#F6F0E1' }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'right', labels: { font: { size: 10 }, boxWidth: 12 } },
+        tooltip: { callbacks: { label: ctx => ' ' + ctx.label + ': ' + fmt(ctx.raw) } }
+      },
+      cutout: '58%'
+    }
+  });
+
+  // ── Dashboard Comparativo 2025 × 2026 ────────────────────────────────
+  const LM2 = 3;
+  const months4 = [0,1,2,3];
+  const cmpRows = PKGS.map(p => {
+    const ytd25 = months4.reduce((a, i) => a + (DATA.meta[p.key].real2025[i] || 0), 0);
+    const ytdMeta = months4.reduce((a, i) => a + DATA.meta[p.key].meta[i], 0);
+    const ytdReal = months4.reduce((a, i) => a + DATA.meta[p.key].real[i], 0);
+    return { label: p.label, full: p.full, ytd25, ytdMeta, ytdReal };
+  });
+
+  new Chart(pg.querySelector('#chart-cmp-dash'), {
+    type: 'bar',
+    data: {
+      labels: cmpRows.map(r => r.label),
+      datasets: [
+        { label: '2025 YTD',    data: cmpRows.map(r => r.ytd25),    backgroundColor: 'rgba(10,107,44,0.3)',  borderColor: '#0A6B2C', borderWidth: 1.5, borderRadius: 4 },
+        { label: '2026 Meta',   data: cmpRows.map(r => r.ytdMeta),  backgroundColor: 'rgba(255,80,40,0.2)', borderColor: '#FF5028', borderWidth: 1.5, borderRadius: 4 },
+        { label: '2026 Real',   data: cmpRows.map(r => r.ytdReal),  backgroundColor: cmpRows.map(r => farClass(r.ytdReal, r.ytdMeta) === 'green' ? 'rgba(16,185,129,0.85)' : farClass(r.ytdReal, r.ytdMeta) === 'yellow' ? 'rgba(245,158,11,0.85)' : 'rgba(239,68,68,0.85)'), borderRadius: 4 },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top', labels: { font: { size: 10 } } } },
+      scales: { y: { ticks: { callback: v => fmtK(v), font: { size: 10 } }, grid: { color: 'rgba(10,107,44,0.06)' } } }
+    }
+  });
+
+  const tbodyCmpDash = pg.querySelector('#tbl-cmp-dash');
+  let tot25d = 0, totMd = 0, totRd = 0;
+  cmpRows.forEach(r => {
+    tot25d += r.ytd25; totMd += r.ytdMeta; totRd += r.ytdReal;
+    const d25 = r.ytdReal - r.ytd25, dM = r.ytdReal - r.ytdMeta;
+    tbodyCmpDash.insertAdjacentHTML('beforeend', `<tr>
+      <td><strong>${r.full}</strong></td>
+      <td>${fmt(r.ytd25)}</td>
+      <td>${fmt(r.ytdMeta)}</td>
+      <td>${r.ytdReal > 0 ? fmt(r.ytdReal) : '<span style="color:#d1d5db">—</span>'}</td>
+      <td><span class="${d25 > 0 ? 'pos' : 'neg'}">${d25 > 0 ? '+' : ''}${fmt(d25)}</span></td>
+      <td>${r.ytdReal > 0 ? '<span class="' + (dM > 0 ? 'pos' : 'neg') + '">' + (dM > 0 ? '+' : '') + fmt(dM) + '</span>' : '<span style="color:#d1d5db">—</span>'}</td>
+    </tr>`);
+  });
+  const d25Tot = totRd - tot25d, dMTot = totRd - totMd;
+  tbodyCmpDash.insertAdjacentHTML('beforeend', `<tr class="total">
+    <td>TOTAL GERAL</td>
+    <td>${fmt(tot25d)}</td><td>${fmt(totMd)}</td><td>${fmt(totRd)}</td>
+    <td><span class="${d25Tot > 0 ? 'pos' : 'neg'}">${d25Tot > 0 ? '+' : ''}${fmt(d25Tot)}</span></td>
+    <td><span class="${dMTot > 0 ? 'pos' : 'neg'}">${dMTot > 0 ? '+' : ''}${fmt(dMTot)}</span></td>
+  </tr>`);
+
+  // ── Tabela 2025 Total Anual × 2026 ───────────────────────────────────
+  const tbodyCmpAnual = pg.querySelector('#tbl-cmp-anual');
+  let tot25a = 0, totM26a = 0, totR26a = 0;
+  cmpRows.forEach(r => {
+    const total25 = DATA.meta[PKGS.find(p => p.label === r.label).key].real2025.reduce((a,v) => a+v, 0);
+    const meta26a = DATA.meta[PKGS.find(p => p.label === r.label).key].meta.reduce((a,v) => a+v, 0);
+    tot25a += total25; totM26a += meta26a; totR26a += r.ytdReal;
+    const pctOf25  = total25 > 0 ? ((r.ytdReal / total25) * 100).toFixed(1).replace('.',',') + '%' : '—';
+    const pctOfMeta = meta26a > 0 ? ((r.ytdReal / meta26a) * 100).toFixed(1).replace('.',',') + '%' : '—';
+    tbodyCmpAnual.insertAdjacentHTML('beforeend', `<tr>
+      <td><strong>${r.full}</strong></td>
+      <td>${fmt(total25)}</td>
+      <td>${fmt(meta26a)}</td>
+      <td>${r.ytdReal > 0 ? fmt(r.ytdReal) : '<span style="color:#d1d5db">—</span>'}</td>
+      <td>${r.ytdReal > 0 ? '<span style="font-weight:600;color:var(--cabana-green)">' + pctOf25 + '</span>' : '<span style="color:#d1d5db">—</span>'}</td>
+      <td>${r.ytdReal > 0 ? '<span style="font-weight:600;color:var(--cabana-green)">' + pctOfMeta + '</span>' : '<span style="color:#d1d5db">—</span>'}</td>
+    </tr>`);
+  });
+  const pctTot25 = tot25a > 0 ? ((totR26a/tot25a)*100).toFixed(1).replace('.',',')+'%' : '—';
+  const pctTotM  = totM26a > 0 ? ((totR26a/totM26a)*100).toFixed(1).replace('.',',')+'%' : '—';
+  tbodyCmpAnual.insertAdjacentHTML('beforeend', `<tr class="total">
+    <td>TOTAL GERAL</td>
+    <td>${fmt(tot25a)}</td><td>${fmt(totM26a)}</td><td>${fmt(totR26a)}</td>
+    <td><span style="font-weight:700;color:var(--cabana-green)">${pctTot25}</span></td>
+    <td><span style="font-weight:700;color:var(--cabana-green)">${pctTotM}</span></td>
+  </tr>`);
+}
+
+// ====== PACKAGE PAGES ======
+const chartStore = {};
+
+// which pkgs have filial filter
+const PKG_WITH_FILIAL = ['ecolab','lalamove','epi','uniformes','utensilios','taxi'];
+const PKG_TAXI_CC     = ['taxi'];
+const PKG_COLLAB      = ['reembolso'];
+
+function buildPackagePage(p) {
+  const pg = document.createElement('div');
+  pg.className = 'page';
+  pg.id = 'pg-' + p.key;
+
+  const rows = DATA.aggregated[p.key] || [];
+  const suppliers = [...new Set(rows.map(r => r.fornecedor))].sort();
+  const filiais   = [...new Set(rows.map(r => r.filial).filter(Boolean))].sort();
+  const m = DATA.meta[p.key];
+
+  const hasFilial  = PKG_WITH_FILIAL.includes(p.key);
+  const hasCollab  = PKG_COLLAB.includes(p.key);
+  const isTaxi     = PKG_TAXI_CC.includes(p.key);
+
+  const fornecLabel = hasCollab ? 'Colaborador' : 'Fornecedor';
+  const filialHtml  = (hasFilial || isTaxi) ? `
+      <div class="fil-group">
+        <label>Filial</label>
+        <select id="ff-${p.key}">
+          <option value="">Todas (${filiais.length})</option>
+          ${filiais.map(f => `<option value="${f.replace(/"/g,'&quot;')}">${f}</option>`).join('')}
+        </select>
+      </div>` : '';
+
+  const solicitantes = isTaxi ? [...new Set(rows.map(r => r.solicitante).filter(Boolean))].sort() : [];
+  const solicitanteHtml = isTaxi ? `
+      <div class="fil-group">
+        <label>Solicitante</label>
+        <select id="fsol-${p.key}">
+          <option value="">Todos (${solicitantes.length})</option>
+          ${solicitantes.map(s => `<option value="${s.replace(/"/g,'&quot;')}">${s}</option>`).join('')}
+        </select>
+      </div>` : '';
+
+  pg.innerHTML = `
+    <div class="page-hero">
+      <h1>${p.full}</h1>
+      <p>Acompanhamento de meta × realizado · 2026</p>
+    </div>
+
+    <div class="filters-bar">
+      ${isTaxi ? '' : `<div class="fil-group">
+        <label>${fornecLabel}</label>
+        <select id="fs-${p.key}">
+          <option value="">Todos (${suppliers.length})</option>
+          ${suppliers.map(s => `<option value="${s.replace(/"/g,'&quot;')}">${s}</option>`).join('')}
+        </select>
+      </div>`}
+      ${filialHtml}
+      <div class="fil-group">
+        <label>Mês Inicial</label>
+        <select id="fmin-${p.key}">
+          ${MONTHS.map((mn,i) => `<option value="${i}">${mn}</option>`).join('')}
+        </select>
+      </div>
+      <div class="fil-group">
+        <label>Mês Final</label>
+        <select id="fmax-${p.key}">
+          ${MONTHS.map((mn,i) => `<option value="${i}" ${i===3?'selected':''}>${mn}</option>`).join('')}
+        </select>
+      </div>
+      ${solicitanteHtml}
+      <button class="btn-reset" onclick="resetPkg('${p.key}')">↺ Limpar</button>
+    </div>
+
+    <div class="grid grid-5" id="kpi-${p.key}"></div>
+
+    <div class="grid grid-2" style="margin-top:16px">
+      <div class="card">
+        <h3 style="font-size:10px;margin-bottom:12px;text-transform:uppercase;letter-spacing:2px">Meta × Realizado por Mês</h3>
+        <div class="chart-wrap"><canvas id="cmes-${p.key}"></canvas></div>
+      </div>
+      <div class="card">
+        <h3 style="font-size:10px;margin-bottom:12px;text-transform:uppercase;letter-spacing:2px">Top Fornecedores / Centros de Custo</h3>
+        <div class="chart-wrap"><canvas id="csup-${p.key}"></canvas></div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:28px">Comparativo 2025 × 2026 — Mês a Mês</div>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3 style="font-size:10px;margin-bottom:12px;text-transform:uppercase;letter-spacing:2px">Realizado 2025 × 2026 (Jan–Dez)</h3>
+        <div class="chart-wrap-lg"><canvas id="ccmp-${p.key}"></canvas></div>
+      </div>
+      <div class="card scroll-x">
+        <h3 style="font-size:10px;margin-bottom:12px;text-transform:uppercase;letter-spacing:2px">Tabela Comparativa</h3>
+        <table id="tblcmp-${p.key}">
+          <thead><tr>
+            <th>Mês</th><th>2025</th><th>2026 Meta</th><th>2026 Real</th><th>Δ vs 2025</th><th>Δ vs Meta</th>
+          </tr></thead>
+          <tbody id="tbodycmp-${p.key}"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:24px">Breakdown por Fornecedor × Mês</div>
+    <div class="card scroll-x">
+      <table id="tbl-${p.key}"><thead></thead><tbody></tbody></table>
+    </div>
+  `;
+  main.appendChild(pg);
+
+  ['fs-','fmin-','fmax-'].forEach(pref => {
+    const el = pg.querySelector('#' + pref + p.key);
+    if (el) el.onchange = () => renderPkg(p);
+  });
+  const ffEl = pg.querySelector('#ff-' + p.key);
+  if (ffEl) ffEl.onchange = () => renderPkg(p);
+  const fsolEl = pg.querySelector('#fsol-' + p.key);
+  if (fsolEl) fsolEl.onchange = () => renderPkg(p);
+  renderPkg(p);
+}
+
+window.resetPkg = function(key) {
+  const fsEl0 = document.getElementById('fs-' + key); if (fsEl0) fsEl0.value = '';
+  document.getElementById('fmin-' + key).value = '0';
+  document.getElementById('fmax-' + key).value = '3';
+  const ffEl = document.getElementById('ff-' + key);
+  if (ffEl) ffEl.value = '';
+  const fsolEl2 = document.getElementById('fsol-' + key);
+  if (fsolEl2) fsolEl2.value = '';
+  renderPkg(PKGS.find(p => p.key === key));
+};
+
+function renderPkg(p) {
+  const _fsEl = document.getElementById('fs-' + p.key);
+  const sup    = _fsEl ? _fsEl.value : '';
+  const _fminEl = document.getElementById('fmin-' + p.key);
+  const mMin   = _fminEl ? parseInt(_fminEl.value) : 0;
+  const _fmaxEl = document.getElementById('fmax-' + p.key);
+  const mMax   = _fmaxEl ? parseInt(_fmaxEl.value) : 3;
+  const ffEl      = document.getElementById('ff-' + p.key);
+  const filial    = ffEl ? ffEl.value : '';
+  const fsolEl    = document.getElementById('fsol-' + p.key);
+  const solicitante = fsolEl ? fsolEl.value : '';
+  const m = DATA.meta[p.key];
+  const filtered = (DATA.aggregated[p.key] || []).filter(r =>
+    r.mes >= mMin && r.mes <= mMax &&
+    (!sup        || r.fornecedor  === sup) &&
+    (!filial     || r.filial      === filial) &&
+    (!solicitante|| r.solicitante === solicitante)
+  );
+
+  let metaPer = 0, realPer = 0;
+  for (let i = mMin; i <= mMax; i++) { metaPer += m.meta[i]; realPer += m.real[i]; }
+  if (sup || filial || solicitante) realPer = filtered.reduce((a, b) => a + b.valor, 0);
+
+  const varPer = realPer - metaPer;
+  const fc = farClass(realPer, metaPer);
+  const metaAnual = m.meta.reduce((a, b) => a + b, 0);
+  const realYtdTotal = m.real.reduce((a, b) => a + b, 0);
+  const pctAnual = metaAnual > 0 ? ((realYtdTotal / metaAnual) * 100).toFixed(1).replace('.', ',') + '%' : '—';
+  const kpiEl = document.getElementById('kpi-' + p.key);
+  kpiEl.innerHTML = `
+    <div class="card" style="border-left:4px solid var(--cabana-orange)">
+      <h3>Meta Total do Ano</h3>
+      <div class="val" style="color:var(--cabana-orange)">${fmt(metaAnual)}</div>
+      <div class="sub">Jan – Dez 2026 · 12 meses</div>
+      <div class="sub" style="margin-top:4px">Consumido YTD: ${pctAnual}</div>
+    </div>
+    <div class="farol-card fc-${fc}">
+      <div class="fc-name">Meta do Período</div>
+      <div class="fc-val">${fmt(metaPer)}</div>
+      <div class="fc-sub">${MONTHS[mMin]}${mMin!==mMax?' – '+MONTHS[mMax]:''} · ${mMax-mMin+1} mês${mMax!==mMin?'es':''}</div>
+    </div>
+    <div class="farol-card fc-${fc}">
+      <div class="fc-name">Realizado${sup ? ' (Filtrado)' : ''}</div>
+      <div class="fc-val"><span class="farol-dot dot-${fc}"></span>${fmt(realPer)}</div>
+      <div class="fc-sub">${pct(realPer, metaPer)} da meta do período</div>
+    </div>
+    <div class="card">
+      <h3>Variação</h3>
+      <div class="val ${varPer > 0 ? 'pos' : 'neg'}">${varPer > 0 ? '+' : ''}${fmt(varPer)}</div>
+      <div class="sub">${varPer > 0 ? 'Acima do orçado' : 'Dentro do orçado'}</div>
+    </div>`;
+
+  // Charts
+  const monthLabels = [], metaArr = [], realArr = [];
+  for (let i = mMin; i <= mMax; i++) {
+    monthLabels.push(MONTHS[i]);
+    metaArr.push(m.meta[i]);
+    realArr.push(sup
+      ? filtered.filter(r => r.mes === i).reduce((a, b) => a + b.valor, 0)
+      : m.real[i]
+    );
+  }
+
+  if (chartStore['m' + p.key]) chartStore['m' + p.key].destroy();
+  chartStore['m' + p.key] = new Chart(document.getElementById('cmes-' + p.key), {
+    type: 'bar',
+    data: {
+      labels: monthLabels,
+      datasets: [
+        { label: 'Meta', data: metaArr, backgroundColor: 'rgba(10,107,44,0.2)', borderColor: '#0A6B2C', borderWidth: 2, borderRadius: 4 },
+        { label: 'Realizado', data: realArr, backgroundColor: realArr.map((v,i) => {
+          const f = farClass(v, metaArr[i]);
+          return f === 'green' ? 'rgba(16,185,129,0.85)' : f === 'yellow' ? 'rgba(245,158,11,0.85)' : 'rgba(239,68,68,0.85)';
+        }), borderRadius: 4 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top', labels: { font: { size: 10 } } } },
+      scales: { y: { ticks: { callback: v => fmtK(v), font: { size: 10 } }, grid: { color: 'rgba(10,107,44,0.08)' } } }
+    }
+  });
+
+  // For cross-filter: top chart shows breakdown by filial when available, else by supplier
+  const hasFil = ['ecolab','lalamove','epi','uniformes','utensilios','taxi'].includes(p.key);
+  const supTotals = {};
+  filtered.forEach(r => {
+    const groupKey = (hasFil && !filial) ? (r.filial || r.fornecedor) : r.fornecedor;
+    supTotals[groupKey] = (supTotals[groupKey] || 0) + r.valor;
+  });
+  const top10 = Object.entries(supTotals).sort((a, b) => b[1] - a[1]).slice(0, 10);
+
+  if (chartStore['s' + p.key]) chartStore['s' + p.key].destroy();
+  chartStore['s' + p.key] = new Chart(document.getElementById('csup-' + p.key), {
+    type: 'bar',
+    data: {
+      labels: top10.map(e => e[0].length > 32 ? e[0].slice(0, 30) + '…' : e[0]),
+      datasets: [{ label: 'Realizado', data: top10.map(e => e[1]),
+        backgroundColor: 'rgba(10,107,44,0.75)', borderRadius: 4 }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { x: { ticks: { callback: v => fmtK(v), font: { size: 10 } }, grid: { color: 'rgba(10,107,44,0.08)' } },
+                y: { ticks: { font: { size: 9 } } } }
+    }
+  });
+
+  // ── Comparativo 2025 × 2026 ──────────────────────────────────────────
+  const m2025 = DATA.meta[p.key].real2025 || Array(12).fill(0);
+  const mMeta = DATA.meta[p.key].meta;
+  const mReal = DATA.meta[p.key].real;
+  const allMonths = MONTHS;
+
+  if (chartStore['cmp' + p.key]) chartStore['cmp' + p.key].destroy();
+  chartStore['cmp' + p.key] = new Chart(document.getElementById('ccmp-' + p.key), {
+    type: 'bar',
+    data: {
+      labels: allMonths,
+      datasets: [
+        { label: '2025 Realizado', data: m2025, backgroundColor: 'rgba(10,107,44,0.25)', borderColor: '#0A6B2C', borderWidth: 1.5, borderRadius: 3 },
+        { label: '2026 Meta',      data: mMeta,  backgroundColor: 'rgba(255,80,40,0.15)', borderColor: '#FF5028', borderWidth: 1.5, borderRadius: 3, borderDash: [4,4] },
+        { label: '2026 Realizado', data: mReal,  backgroundColor: mReal.map((v,i) => v > 0 ? (farClass(v, mMeta[i]) === 'green' ? 'rgba(16,185,129,0.85)' : farClass(v, mMeta[i]) === 'yellow' ? 'rgba(245,158,11,0.85)' : 'rgba(239,68,68,0.85)') : 'rgba(0,0,0,0)'), borderRadius: 3 },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top', labels: { font: { size: 10 } } } },
+      scales: { y: { ticks: { callback: v => fmtK(v), font: { size: 10 } }, grid: { color: 'rgba(10,107,44,0.06)' } } }
+    }
+  });
+
+  // Comparativo table
+  const tbodyCmp = document.getElementById('tbodycmp-' + p.key);
+  tbodyCmp.innerHTML = '';
+  let tot25 = 0, totMeta26 = 0, totReal26 = 0;
+  allMonths.forEach((mn, i) => {
+    const v25 = m2025[i], vm = mMeta[i], vr = mReal[i];
+    tot25 += v25; totMeta26 += vm; totReal26 += vr;
+    const dVs25 = vr > 0 ? vr - v25 : null;
+    const dVsMeta = vr > 0 ? vr - vm : null;
+    const hasReal = vr > 0;
+    tbodyCmp.insertAdjacentHTML('beforeend', `<tr>
+      <td><strong>${mn}</strong></td>
+      <td>${v25 > 0 ? fmt(v25) : '<span style="color:#d1d5db">—</span>'}</td>
+      <td>${fmt(vm)}</td>
+      <td>${hasReal ? fmt(vr) : '<span style="color:#d1d5db">—</span>'}</td>
+      <td>${dVs25 !== null ? '<span class="' + (dVs25 > 0 ? 'pos' : 'neg') + '">' + (dVs25 > 0 ? '+' : '') + fmt(dVs25) + '</span>' : '<span style="color:#d1d5db">—</span>'}</td>
+      <td>${dVsMeta !== null ? '<span class="' + (dVsMeta > 0 ? 'pos' : 'neg') + '">' + (dVsMeta > 0 ? '+' : '') + fmt(dVsMeta) + '</span>' : '<span style="color:#d1d5db">—</span>'}</td>
+    </tr>`);
+  });
+  const dTot25 = totReal26 > 0 ? totReal26 - tot25 : null;
+  const dTotMeta = totReal26 > 0 ? totReal26 - totMeta26 : null;
+  tbodyCmp.insertAdjacentHTML('beforeend', `<tr class="total">
+    <td>TOTAL</td>
+    <td>${fmt(tot25)}</td>
+    <td>${fmt(totMeta26)}</td>
+    <td>${totReal26 > 0 ? fmt(totReal26) : '<span style="color:#d1d5db">—</span>'}</td>
+    <td>${dTot25 !== null ? '<span class="' + (dTot25 > 0 ? 'pos' : 'neg') + '">' + (dTot25 > 0 ? '+' : '') + fmt(dTot25) + '</span>' : '—'}</td>
+    <td>${dTotMeta !== null ? '<span class="' + (dTotMeta > 0 ? 'pos' : 'neg') + '">' + (dTotMeta > 0 ? '+' : '') + fmt(dTotMeta) + '</span>' : '—'}</td>
+  </tr>`);
+
+  // Table
+  const allSups = [...new Set(filtered.map(r => r.fornecedor))].sort();
+  const monthRange = [];
+  for (let i = mMin; i <= mMax; i++) monthRange.push(i);
+  const thead = document.querySelector('#tbl-' + p.key + ' thead');
+  const tbody = document.querySelector('#tbl-' + p.key + ' tbody');
+  thead.innerHTML = '<tr><th>Fornecedor / Centro de Custo</th>' + monthRange.map(i => '<th>' + MONTHS[i] + '</th>').join('') + '<th>Total</th></tr>';
+  tbody.innerHTML = '';
+
+  const colTots = monthRange.map(() => 0);
+  let grandTotal = 0;
+  allSups.forEach(s => {
+    let rowTot = 0;
+    const cells = monthRange.map((mi, idx) => {
+      const v = filtered.filter(r => r.fornecedor === s && r.mes === mi).reduce((a, b) => a + b.valor, 0);
+      colTots[idx] += v; rowTot += v;
+      return '<td>' + (v > 0 ? fmt(v) : '<span style="color:#d1d5db">—</span>') + '</td>';
+    });
+    grandTotal += rowTot;
+    tbody.insertAdjacentHTML('beforeend', '<tr><td><strong>' + s + '</strong></td>' + cells.join('') + '<td><strong>' + fmt(rowTot) + '</strong></td></tr>');
+  });
+  if (allSups.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="' + (monthRange.length + 2) + '" style="text-align:center;color:#9ca3af;padding:24px">Nenhum dado para os filtros selecionados</td></tr>';
+  } else {
+    tbody.insertAdjacentHTML('beforeend',
+      '<tr class="total"><td>TOTAL</td>' + colTots.map(v => '<td>' + fmt(v) + '</td>').join('') + '<td>' + fmt(grandTotal) + '</td></tr>');
+  }
+}
+
+// ====== INIT ======
+buildDash();
+PKGS.forEach(buildPackagePage);
+
+// ====== COMMENT SYSTEM ======
+window.saveComment = function(el) {
+  const key = el.dataset.key;
+  const val = el.value.trim();
+  if (val) {
+    localStorage.setItem(key, val);
+    const ts = new Date().toLocaleString('pt-BR', {day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+    localStorage.setItem(key + '_ts', 'Salvo em ' + ts);
+    // update timestamp display
+    let tsEl = el.nextElementSibling;
+    if (!tsEl || !tsEl.classList.contains('comment-ts')) {
+      tsEl = document.createElement('div');
+      tsEl.className = 'comment-ts';
+      el.insertAdjacentElement('afterend', tsEl);
+    }
+    tsEl.textContent = 'Salvo em ' + ts;
+  } else {
+    localStorage.removeItem(key);
+    localStorage.removeItem(key + '_ts');
+    const tsEl = el.nextElementSibling;
+    if (tsEl && tsEl.classList.contains('comment-ts')) tsEl.textContent = '';
+  }
+  // flash toast
+  const toast = document.getElementById('save-toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+};
+
+// ====== SLIDESHOW ======
+let slideItems = [];
+let slideIdx = 0;
+
+// ── UNIFIED SLIDESHOW — one slide per package, YTD + Mês side by side ──
+function openSlide() {
+  document.getElementById('slide-overlay').classList.add('open');
+  renderSlide();
+  document.addEventListener('keydown', slideKeyHandler);
+}
+function closeSlide() {
+  document.getElementById('slide-overlay').classList.remove('open');
+  document.removeEventListener('keydown', slideKeyHandler);
+}
+function slideKeyHandler(e) {
+  if (e.key === 'Escape') closeSlide();
+}
+function slideMove(dir) {
+  slideIdx = Math.max(0, Math.min(PKGS.length - 1, slideIdx + dir));
+  renderSlide();
+}
+function buildDots() {
+  document.getElementById('slide-dots').innerHTML = PKGS.map((p, i) =>
+    `<div class="slide-dot${i===0?' active':''}" title="${p.label}" onclick="slideGoto(${i})"></div>`
+  ).join('');
+}
+function slideGoto(i) { slideIdx = i; renderSlide(); }
+
+function getCheckedMonths() {
+  return [...document.querySelectorAll('#dash-mes-checks input:checked')].map(c => parseInt(c.value));
+}
+
+function farIcon(fc) {
+  return fc === 'green'
+    ? '<svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="#10b981"/><path d="M6 11.5l3.5 3.5 6.5-7" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>'
+    : fc === 'yellow'
+    ? '<svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="#f59e0b"/><text x="11" y="16" text-anchor="middle" font-size="14" fill="#fff" font-weight="900">!</text></svg>'
+    : '<svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="#ef4444"/><path d="M7 7l8 8M15 7l-8 8" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>';
+}
+
+function farBg(fc) {
+  return fc === 'green' ? 'rgba(16,185,129,0.13)' : fc === 'yellow' ? 'rgba(245,158,11,0.13)' : 'rgba(239,68,68,0.13)';
+}
+function farColor(fc) {
+  return fc === 'green' ? '#6ee7b7' : fc === 'yellow' ? '#fcd34d' : '#fca5a5';
+}
+function farBorder(fc) {
+  return fc === 'green' ? 'rgba(16,185,129,0.5)' : fc === 'yellow' ? 'rgba(245,158,11,0.5)' : 'rgba(239,68,68,0.5)';
+}
+function farStatus(fc) {
+  return fc === 'green' ? 'Dentro da Meta' : fc === 'yellow' ? 'Atenção — Leve Excesso' : 'Excedeu a Meta';
+}
+
+function slideBlock(label, real, meta, period) {
+  const fc = farClass(real, meta);
+  const varVal = real - meta;
+  const varSign = varVal > 0 ? '+' : '';
+  return `
+    <div style="flex:1;background:${farBg(fc)};border:1.5px solid ${farBorder(fc)};border-radius:16px;padding:28px 24px;display:flex;flex-direction:column;align-items:center;gap:10px;min-width:220px">
+      <div style="font-size:9px;text-transform:uppercase;letter-spacing:2.5px;color:rgba(246,240,225,0.5);font-weight:700">${period}</div>
+      ${farIcon(fc)}
+      <div style="font-size:clamp(26px,4vw,44px);font-weight:900;color:${farColor(fc)};font-family:'Georgia',serif;letter-spacing:-1px;line-height:1">${fmt(real)}</div>
+      <div style="font-size:12px;color:rgba(246,240,225,0.55)">Meta: ${fmt(meta)}</div>
+      <div style="font-size:clamp(18px,2.5vw,28px);font-weight:900;color:${farColor(fc)}">${pct(real,meta)}</div>
+      <div style="font-size:11px;color:rgba(246,240,225,0.6)">${varSign}${fmt(varVal)}</div>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:${farColor(fc)}">${farStatus(fc)}</div>
+    </div>`;
+}
+
+function renderSlide() {
+  const LM = 3;
+  const checked = getCheckedMonths();
+  const mesLabel = checked.length ? checked.map(i => MONTHS[i]).join(' + ') : null;
+  const period   = mesLabel ? 'Mês a Mês — ' + mesLabel : 'YTD — Jan a Abr 2026';
+
+  const cards = PKGS.map(p => {
+    const m = DATA.meta[p.key];
+    let mYtd = 0, rYtd = 0;
+    for (let i = 0; i <= LM; i++) { mYtd += m.meta[i]; rYtd += m.real[i]; }
+
+    const mMes = checked.reduce((a, i) => a + m.meta[i], 0);
+    const rMes = checked.reduce((a, i) => a + m.real[i], 0);
+
+    const fc   = farClass(mesLabel ? rMes : rYtd, mesLabel ? mMes : mYtd);
+    const real = mesLabel ? rMes : rYtd;
+    const meta = mesLabel ? mMes : mYtd;
+    const varVal  = real - meta;
+    const varSign = varVal > 0 ? '+' : '';
+    const statusLabel = fc === 'green' ? '✓ OK' : fc === 'yellow' ? '⚠ Atenção' : '✕ Excedeu';
+
+    return `
+      <div class="slide-pkg-card fc-${fc}" onclick="closeSlide();switchPage('${p.key}')">
+        <div class="spc-name">${p.full}</div>
+        <div class="spc-val-row">
+          <span class="spc-dot fc-${fc}"></span>
+          <span class="spc-val">${fmtK(real)}</span>
+        </div>
+        <div class="spc-meta">Meta: ${fmtK(meta)} &nbsp;·&nbsp; ${pct(real, meta)}</div>
+        <div class="spc-meta" style="color:${varVal>0?'#ef4444':'#10b981'};font-weight:600">${varSign}${fmt(varVal)}</div>
+        <div class="spc-status fc-${fc}">${statusLabel}</div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('slide-period-label').textContent = period;
+  document.getElementById('slide-subtitle').textContent = period + ' · 8 Pacotes';
+  document.getElementById('slide-ts').textContent = new Date().toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+
+  document.getElementById('slide-stage').innerHTML = `
+    <div class="slide-animate" style="width:100%;max-width:1280px">
+      <div class="slide-cards-grid">${cards}</div>
+    </div>`;
+}
+
+
+
+
+
+window.selectAllMeses = function() {
+  document.querySelectorAll('#dash-mes-checks input[type=checkbox]').forEach(cb => cb.checked = true);
+  renderDashMes();
+};
+window.clearMeses = function() {
+  document.querySelectorAll('#dash-mes-checks input[type=checkbox]').forEach(cb => cb.checked = false);
+};
+</script>
+<div class="comment-saved-flash" id="save-toast">💬 Comentário salvo</div>
+
+<!-- SLIDE OVERLAY -->
+<div class="slide-overlay" id="slide-overlay">
+  <div class="slide-topbar">
+    <div class="slide-topbar-left">
+      <div class="wm">Cabana<sup style="font-size:0.45em">®</sup></div>
+      <div class="slide-period" id="slide-period-label">Farol de Pacotes</div>
+    </div>
+    <button class="slide-close" onclick="closeSlide()" title="Fechar (ESC)">✕</button>
+  </div>
+  <div class="slide-title-row">
+    <h2>Farol de Pacotes — 2026</h2>
+    <p id="slide-subtitle">Dashboard · Controladoria</p>
+  </div>
+  <div class="slide-stage" id="slide-stage"></div>
+  <div class="slide-footer-bar">
+    <div class="tagline">Burgers Reais · Controladoria SP→RJ</div>
+    <div class="ts" id="slide-ts"></div>
+  </div>
+</div>
+
+</body>
+</html>
